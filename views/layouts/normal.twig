@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+        <title>{% block title %}Curo{% endblock %}</title>
+        <meta name="description" content="{% block description %}this is a slim app{% endblock %}"/>
+        <meta name="keywords" content="{% block keywords %}slim{% endblock %}"/>
+        <meta name="author" content="{% block author %}IIInsomnia{% endblock %}"/>
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- CSS Files -->
+        <link rel="stylesheet" type="text/css" href="assets/curo/css/bootstrap.min.css"/>
+        <link rel="stylesheet" type="text/css" href="assets/curo/css/font-awesome.min.css"/>
+        <link rel="stylesheet" type="text/css" href="assets/curo/css/toastr.min.css" />
+        <link rel="stylesheet" type="text/css" href="assets/curo/css/curo.css"/>
+        {% block css %}{% endblock %}
+        <!-- End CSS Files -->
+    </head>
+
+    <body class="{% block body_class %}{% endblock %}">
+        <div class="container">
+            {% block content %}{% endblock %}
+        </div>
+
+        <script type="text/javascript">
+            window.paceOptions = {
+                elements: false,
+                document: false,
+                eventLag: false,
+                ajax: {
+                    trackMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
+                },
+                restartOnRequestAfter: 0
+            }
+        </script>
+
+        <!-- Javascripts -->
+        <script type="text/javascript" src="assets/curo/js/jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="assets/curo/js/pace.min.js"></script>
+        <script type="text/javascript" src="assets/curo/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="assets/curo/js/toastr.min.js"></script>
+        {% block js %}{% endblock %}
+        <!-- End Javascripts -->
+    </body>
+</html>

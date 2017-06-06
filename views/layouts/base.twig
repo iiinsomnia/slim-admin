@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+        <title>{% block title %}Curo{% endblock %}</title>
+
+        <meta name="description" content="{% block description %}this is a slim app{% endblock %}"/>
+        <meta name="keywords" content="{% block keywords %}slim{% endblock %}"/>
+        <meta name="author" content="{% block author %}IIInsomnia{% endblock %}"/>
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- CSS Files -->
+        <link rel="stylesheet" type="text/css" href="assets/curo/css/bootstrap.min.css"/>
+        <link rel="stylesheet" type="text/css" href="assets/curo/css/font-awesome.min.css"/>
+        <link rel="stylesheet" type="text/css" href="assets/curo/css/animate.css"/>
+        <link rel="stylesheet" type="text/css" href="assets/curo/css/toastr.min.css" />
+        <link rel="stylesheet" type="text/css" href="assets/curo/css/curo.css"/>
+        {% block css %}{% endblock %}
+        <link rel="stylesheet" type="text/css" href="assets/css/site.css"/>
+        <!-- End CSS Files -->
+    </head>
+
+    <body class="header-fixed skin-blue">
+        <!-- Header Section -->
+        <header>
+            <!-- Product Logo -->
+            <a href="javascript:void(0);" class="logo hidden-xs">
+                <span class="icon">
+                    <i class="fa fa-cube"></i>
+                </span>
+                {% block site_name %}Curo{% endblock %}
+            </a>
+            <!-- End Product Logo -->
+
+            <!-- Header Navigation -->
+            <nav class="navbar-main" role="navigation">
+                <!-- Left Button Container -->
+                <ul class="button-container pull-left">
+                    <li class="item">
+                        <!-- Left Sidebar Toggle Button -->
+                        <a id="sidebarLeftToggle" class="nav-button" data-toggle="collapse" data-target=".sidebarLeft">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="fa fa-bars"></span>
+                        </a>
+                    </li>
+
+                </ul>
+                <!-- End Left Button Container -->
+
+                <!-- Right Button Container -->
+                <ul class="button-container pull-right">
+                    <li class="item">
+                        <!-- Right Sidebar Toggle Button -->
+                        <a id="sidebarRightToggle" class="nav-button" data-toggle="collapse" data-target=".sidebarRight">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="fa fa-bullhorn"></span>
+                        </a>
+                        <!-- End Right Sidebar Toggle Button -->
+                    </li>
+
+                    <li class="item dropdown collapse sidebarRight chat-search hidden-xs">
+                        <!-- Chat List Search Form -->
+                        <form class="search-form" role="search">
+                            <input class="form-control" type="text" placeholder="Search Users...">
+                        </form>
+                        <!-- End Chat List Search Form -->
+                    </li>
+
+                </ul>
+                <!-- End Right Button Container -->
+
+                <!-- Navbar Content Center -->
+                <div class="nav-content">
+                    <!-- Page Title -->
+                    <h3 class="page-title">{% block page_title %}Empty Page{% endblock %}</h3>
+                    <!-- End Page Title -->
+                </div>
+                <!-- End Navbar Content Center -->
+            </nav>
+            <!-- End Header Navigation -->
+        </header>
+        <!-- End Header Section -->
+
+        <!-- Left Sidebar -->
+        <aside class="sidebar sidebar-left collapse navbar-collapse sidebarLeft">
+            <!-- Sidebar Wrapper -->
+            <div class="sidebar-wrapper">
+                <!-- Side Panel -->
+                <div class="side-panel">
+                    <!-- Sidebar Buttons: The classes button-1, button-2, button-3 and button-4 corresspond to the position of the
+                        button in each row. A row contains a maximum of 4 buttons -->
+                    {% block nav_buttons %}{% endblock %}
+                </div>
+                <!-- End Side Panel -->
+
+                <!-- Sidebar Navigation Wrapper -->
+                <div class="sidebar-nav-wrapper">
+                    <!-- User Conatiner -->
+                    {% block user_container %}{% endblock %}
+                    <!-- End User Conatiner -->
+
+                    <!-- Search Form Container -->
+                    <div class="search-form-container">
+                        <form class="search-form" role="search">
+                            <input type="text" placeholder="Search...">
+                            <button type="submit"><i class="fa fa-search"></i></button>
+                        </form>
+                    </div>
+                    <!-- End Search Form Container -->
+
+                    <!-- Sidebar Navigation -->
+                    {% block nav %}{% endblock %}
+                    <!-- End Sidebar Navigation -->
+                </div>
+                <!-- End Sidebar Navigation Wrapper -->
+            </div>
+            <!-- End Sidebar Wrapper -->
+        </aside>
+        <!-- End Left Sidebar -->
+
+        <!-- Right Sidebar -->
+        <aside class="sidebar sidebar-right collapse navbar-collapse in sidebarRight">
+            <!-- Sidebar Wrapper -->
+            <div class="sidebar-wrapper">
+                <!-- Chat list Wrapper -->
+                {% block sidebar_right %}{% endblock %}
+                <!-- End Chatlist Wrapper -->
+            </div>
+            <!-- End Sidebar Wrapper -->
+        </aside>
+        <!-- End Right Sidebar -->
+
+        <!-- Page Content Wrapper -->
+        <aside class="content-wrapper sidebarLeft">
+            <!-- Page Content -->
+            <div class="content container-fluid sidebarRight animated fadeInUp">
+                <div class="row">
+                    <div class="col-sm-12">
+                        {% block breadcrumb %}
+                            <ol class="breadcrumb">
+                                <li><a href="index.html">Home</a></li>
+                                <li><a href="empty.html">Pages</a></li>
+                                <li class="active"><a>Empty Page</a></li>
+                            </ol>
+                        {% endblock %}
+                        {% block content %}{% endblock %}
+                    </div>
+                </div>
+            </div>
+            <!-- End Page Content -->
+        </aside>
+        <!-- End Page Content Wrapper -->
+
+        <script type="text/javascript">
+            window.paceOptions = {
+                elements: false,
+                document: false,
+                eventLag: false,
+                ajax: {
+                    trackMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
+                },
+                restartOnRequestAfter: 0
+            }
+        </script>
+
+        <!-- Javascripts -->
+        <script type="text/javascript" src="assets/curo/js/jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="assets/curo/js/pace.min.js"></script>
+        <script type="text/javascript" src="assets/curo/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="assets/curo/js/jquery.slimscroll.min.js"></script>
+        <script type="text/javascript" src="assets/curo/js/placeholders.min.js"></script>
+        <script type="text/javascript" src="assets/curo/js/toastr.min.js"></script>
+        <script type="text/javascript" src="assets/curo/js/nav.js"></script>
+        <script type="text/javascript" src="assets/curo/js/custom.js"></script>
+        <script type="text/javascript" src="assets/js/common/alert.js"></script>
+        {% block js %}{% endblock %}
+        <!-- End Javascripts -->
+    </body>
+</html>

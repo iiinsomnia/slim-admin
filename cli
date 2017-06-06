@@ -1,0 +1,23 @@
+#!/usr/bin/env php
+<?php
+require __DIR__ . '/vendor/autoload.php';
+require __DIR__ . '/bootstrap/env.php';
+
+// Instantiate the app
+$settings = require __DIR__ . '/config/settings.php';
+$app = new \Slim\App($settings);
+
+// Set up bootstrap
+require __DIR__ . '/bootstrap/bootstrap.php';
+// Set up commands
+require __DIR__ . '/provider/commands.php';
+
+$di = $app->getContainer();
+
+$cli = new \Symfony\Component\Console\Application();
+
+# add our commands
+$cli->add($di->get($argv[1]));
+
+$cli->run();
+?>
