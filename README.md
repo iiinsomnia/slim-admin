@@ -2,6 +2,8 @@
 
 SlimFramework整合Laravel/Database、MongoDB、Predis，用于后台管理或web开发，支持CLI-Command
 
+支持邮件发送运行时错误
+
 ### 使用：
 
 ```sh
