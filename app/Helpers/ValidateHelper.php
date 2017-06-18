@@ -21,6 +21,7 @@ class ValidateHelper
         'date'        => '{{name}}不是合法的日期格式：{{format}}',
         'equals'      => '{{name}}必须和{{compareTo}}相同',
         'contains'    => '{{name}}必须包含{{containsValue}}',
+        'in'          => '{{name}}只能在{{haystack}}之中',
         'regex'       => '{{name}}不符合输入规则：{{regex}}',
     ];
 
