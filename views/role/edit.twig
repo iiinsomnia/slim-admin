@@ -1,0 +1,41 @@
+{% extends 'layouts/main.twig' %}
+
+{% block page_title %}角色管理#编辑角色{% endblock %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li><a href="{{ path_for('home') }}"><i class="fa fa-home fa-lg"></i>首页</a></li>
+        <li><a href="{{ path_for('role.index') }}">角色列表</a></li>
+        <li class="active"><a>编辑角色#{{ data.id }}</a></li>
+    </ol>
+{% endblock %}
+
+{% block content %}
+    <div class="col-sm-10 col-sm-offset-1">
+        <div class="panel panel-white border-top-blue">
+            <div class="panel-body">
+                <form id="ajax_form" role="form" action="{{ path_for('role.edit', {'id': data.id}) }}">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label><i class="required">*</i> 角色名称</label>
+                                <input type="text" name="name" class="form-control" value="{{ data.name }}" placeholder="角色名称" required="required">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12 align-center">
+                            <button type="reset" class="btn btn-default"><i class="fa fa-undo"></i> 重置</button>
+                            <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> 保存</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript" src="/assets/js/common/form.js?v={{ version }}"></script>
+{% endblock %}

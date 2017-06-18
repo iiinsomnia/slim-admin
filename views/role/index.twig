@@ -1,0 +1,77 @@
+{% extends "layouts/main.twig" %}
+
+{% block page_title %}角色管理#角色列表{% endblock %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li><a href="{{ path_for('home') }}"><i class="fa fa-home fa-lg"></i>首页</a></li>
+        <li class="active"><a>角色列表</a></li>
+    </ol>
+{% endblock %}
+
+{% block content %}
+    {{ include('role/search.twig') }}
+
+    <div class="panel panel-white border-top-green">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                {% if 'role.add' in user.route %}
+                    <a href="{{ path_for('role.add') }}" class="btn btn-success btn-xs white"><i class="fa fa-plus"></i> 添加</a>
+                {% else %}
+                    &nbsp;
+                {% endif %}
+            </h3>
+            <div class="controls pull-right">共 <span id="count">{{ list.count }}</span> 条记录</div>
+        </div>
+
+        <div class="panel-body no-padding">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>角色名称</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="data_body" data-url="{{ path_for('role.index') }}">
+                        {% if list.data|length > 0 %}
+                            {% for v in list.data %}
+                                <tr>
+                                    <td>{{ v.id }}</td>
+                                    <td>{{ v.name }}</td>
+                                    <td>
+                                        {% if 'role.edit' in user.route %}
+                                            <a href="{{ path_for('role.edit', {'id': v.id}) }}"><span class="badge bg-light-green"><i class="fa fa-edit"></i>编辑</span></a>
+                                        {% endif %}
+
+                                        {% if 'role.assign' in user.route %}
+                                            <a href="{{ path_for('role.assign', {'roleId': v.id}) }}"><span class="badge bg-light-green"><i class="fa fa-cogs"></i>分配路由</span></a>
+                                        {% endif %}
+
+                                        {% if 'role.delete' in user.route %}
+                                            <a href="javascript:void(0);" class="delete" data-url="{{ path_for('role.delete', {'id': v.id}) }}"><span class="badge bg-light-red"><i class="fa fa-trash-o"></i>删除</span></a>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="3"><i>未找到数据！</i></td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+
+            {% if list.pages > 1 %}
+                {{ include('layouts/includes/pagination.twig') }}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript" src="assets/js/common/pagination.js?v={{ version }}"></script>
+    <script type="text/javascript" src="assets/js/app.js?v={{ version }}"></script>
+{% endblock %}

@@ -6,22 +6,30 @@ use Psr\Container\ContainerInterface;
 
 class Controller
 {
-    protected $success = true;
-    protected $msg = 'success';
-    protected $resp = [];
-
     protected $container;
     protected $viewDir;
-    protected $loginData;
+    protected $commonData;
 
     function __construct(ContainerInterface $c, $dir = false) {
         $this->container = $c;
         $this->viewDir = $dir;
 
-        $this->loginData = [
-            'user' => json_decode(SessionHelper::get('user'), true),
-            'auth' => json_decode(SessionHelper::get('auth'), true),
+        $this->commonData = [
+            'version' => env('APP_VERSION', '1.0.0'),
+            'user'    => json_decode(SessionHelper::get('user'), true),
         ];
+    }
+
+    // 当前用户是否为游客身份
+    protected function isGuest()
+    {
+        $user = SessionHelper::get('user');
+
+        if (empty($user)) {
+            return true;
+        }
+
+        return false;
     }
 
     // 试图渲染
@@ -35,30 +43,78 @@ class Controller
             $path = sprintf("%s.twig", $viewName);
         }
 
-        $data = array_merge($this->loginData, $args);
+        $data = array_merge($this->commonData, $args);
 
         return $this->container->view->render($response, $path, $data);
     }
 
-    // 跳转
-    protected function redirect($response, $route)
+    // 试图403渲染
+    protected function render403($response, $msg)
     {
-        $uri = $this->container->router->pathFor($route);
+        return $this->container->view->render($response, 'error/error.twig', [
+            'title' => 403,
+            'msg'   => $msg,
+        ]);
+    }
+
+    // 试图404渲染
+    protected function render404($response, $msg)
+    {
+        return $this->container->view->render($response, 'error/error.twig', [
+            'title' => 404,
+            'msg'   => $msg,
+        ]);
+    }
+
+    // 试图500渲染
+    protected function render500($response, $msg)
+    {
+        return $this->container->view->render($response, 'error/error.twig', [
+            'title' => 500,
+            'msg'   => $msg,
+        ]);
+    }
+
+    // AJAX试图渲染
+    protected function renderAjax($viewName, $args = [])
+    {
+        $path = '';
+
+        if ($this->viewDir !== false) {
+            $path = sprintf("%s/%s.twig", $this->viewDir, $viewName);
+        } else {
+            $path = sprintf("%s.twig", $viewName);
+        }
+
+        $data = array_merge($this->commonData, $args);
+
+        return $this->container->view->fetch($path, $data);
+    }
+
+    // 跳转
+    protected function redirect($response, $route, $args = [], $query = [])
+    {
+        $uri = $this->container->router->pathFor($route, $args, $query);
 
         return $response->withStatus(302)->withHeader('Location', $uri);
     }
 
     // JSON
-    protected function json($response, $next = null) {
+    protected function json($response, $success = true, $msg = null, $resp = [], $redirect = []) {
         $result = [
-            'success' => $this->success,
-            'msg'     => $this->msg,
-            'data'    => $this->resp,
+            'success' => $success,
+            'msg'     => $msg,
+            'data'    => $resp,
         ];
 
-        if ($this->success && !empty($next)) {
-            $uri = $this->container->router->pathFor($next);
-            $result['data']['next'] = $uri;
+        if (!empty($redirect)) {
+            $route = $redirect[0];
+            $args = isset($redirect['args']) ? $redirect['args'] : [];
+            $query = isset($redirect['query']) ? $redirect['query'] : [];
+
+            $uri = $this->container->router->pathFor($route, $args, $query);
+
+            $result['redirect'] = $uri;
         }
 
         return $response->withJson($result, 200);

@@ -1,0 +1,29 @@
+<div class="panel panel-white border-top-blue">
+    <div class="panel-body">
+        <form class="form-inline" role="form" id="search_form">
+            <div class="form-group">
+                <label>菜单名称</label>
+                <input type="text" name="name" class="form-control input-sm" placeholder="菜单名称">
+            </div>
+            <div class="form-group">
+                <label>路由</label>
+                <select name="route" class="form-control chosen" data-placeholder="选择路由">
+                    <option></option>
+                    {% for v in routes %}
+                        <option value="{{ v }}">{{ v }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label>所属菜单</label>
+                <select name="pid" class="form-control chosen" data-placeholder="选择所属菜单">
+                    <option></option>
+                    {% for v in pmenus %}
+                        <option value="{{ v.id }}">{{ v.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="button" id="search_submit" class="btn btn-primary btn-sm"><i class="fa fa-search"></i> 搜索</button>
+        </form>
+    </div>
+</div>

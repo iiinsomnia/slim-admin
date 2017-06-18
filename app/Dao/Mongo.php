@@ -1,6 +1,7 @@
 <?php
 namespace App\Dao;
 
+use App\Helpers\MailerHelper;
 use MongoDB\Driver\Exception\BulkWriteException;
 use MongoDB\Exception\InvalidArgumentException;
 use MongoDB\Exception\RuntimeException;
@@ -23,19 +24,18 @@ class Mongo
     /**
      * constructor receives container instance
      * @param ContainerInterface $di container instance
-     * @param string $collection 集合名称
+     * @param string $table 表(集合)名称
      * @param string $db 数据库配置名称，默认：mongo
      */
-    public function __construct(ContainerInterface $c, $collection, $db = 'mongo'){
+    public function __construct(ContainerInterface $c, $table, $db = 'mongo'){
         $mongo = $c->get($db);
         $settings = $c->get('settings')[$db];
 
-        $db = $settings['database'];
-        $table = sprintf("%s%s", $settings['prefix'], $collection);
+        $collection = sprintf("%s%s", $settings['prefix'], $table);
 
-        $this->_collection = $mongo->$db->$table;
-        $this->_sequence = $mongo->$db->sequence;
-        $this->_seqId = $collection;
+        $this->_collection = $mongo->{$settings['database']}->{$collection};
+        $this->_sequence = $mongo->{$settings['database']}->sequence;
+        $this->_seqId = $table;
 
         $this->container = $c;
     }
@@ -57,22 +57,31 @@ class Mongo
         } catch (InvalidArgumentException $e) {
             $this->_refreshSequence(-1);
 
-            $logger = $this->container->get('logger');
-            $logger->error(sprintf("[Mongo] Insert Error: %s", $e->getMessage()));
+            $this->container->logger->error(sprintf("[Mongo] Insert Error: %s", $e->getMessage()));
+
+            if (env('ERROR_MAIL', false)) {
+                MailerHelper::sendErrorMail($e);
+            }
 
             return false;
         } catch (BulkWriteException $e) {
             $this->_refreshSequence(-1);
 
-            $logger = $this->container->get('logger');
-            $logger->error(sprintf("[Mongo] Insert Error: %s", $e->getMessage()));
+            $this->container->logger->error(sprintf("[Mongo] Insert Error: %s", $e->getMessage()));
+
+            if (env('ERROR_MAIL', false)) {
+                MailerHelper::sendErrorMail($e);
+            }
 
             return false;
         } catch (RuntimeException $e) {
             $this->_refreshSequence(-1);
 
-            $logger = $this->container->get('logger');
-            $logger->error(sprintf("[Mongo] Insert Error: %s", $e->getMessage()));
+            $this->container->logger->error(sprintf("[Mongo] Insert Error: %s", $e->getMessage()));
+
+            if (env('ERROR_MAIL', false)) {
+                MailerHelper::sendErrorMail($e);
+            }
 
             return false;
         }
@@ -100,22 +109,31 @@ class Mongo
         } catch (InvalidArgumentException $e) {
             $this->_refreshSequence(~$count + 1);
 
-            $logger = $this->container->get('logger');
-            $logger->error(sprintf("[Mongo] BatchInsert Error: %s", $e->getMessage()));
+            $this->container->logger->error(sprintf("[Mongo] BatchInsert Error: %s", $e->getMessage()));
+
+            if (env('ERROR_MAIL', false)) {
+                MailerHelper::sendErrorMail($e);
+            }
 
             return false;
         } catch (BulkWriteException $e) {
             $this->_refreshSequence(~$count + 1);
 
-            $logger = $this->container->get('logger');
-            $logger->error(sprintf("[Mongo] BatchInsert Error: %s", $e->getMessage()));
+            $this->container->logger->error(sprintf("[Mongo] BatchInsert Error: %s", $e->getMessage()));
+
+            if (env('ERROR_MAIL', false)) {
+                MailerHelper::sendErrorMail($e);
+            }
 
             return false;
         } catch (RuntimeException $e) {
             $this->_refreshSequence(~$count + 1);
 
-            $logger = $this->container->get('logger');
-            $logger->error(sprintf("[Mongo] BatchInsert Error: %s", $e->getMessage()));
+            $this->container->logger->error(sprintf("[Mongo] BatchInsert Error: %s", $e->getMessage()));
+
+            if (env('ERROR_MAIL', false)) {
+                MailerHelper::sendErrorMail($e);
+            }
 
             return false;
         }
@@ -130,62 +148,39 @@ class Mongo
     protected function update($query, $data)
     {
         try {
-            $result = $this->_collection->updateOne($query, ['$set' => $data]);
-
-            return $result->getModifiedCount();
-        } catch (UnsupportedException $e) {
-            $logger = $this->container->get('logger');
-            $logger->error(sprintf("[Mongo] Update Error: %s", $e->getMessage()));
-
-            return false;
-        } catch (InvalidArgumentException $e) {
-            $logger = $this->container->get('logger');
-            $logger->error(sprintf("[Mongo] Update Error: %s", $e->getMessage()));
-
-            return false;
-        } catch (BulkWriteException $e) {
-            $logger = $this->container->get('logger');
-            $logger->error(sprintf("[Mongo] Update Error: %s", $e->getMessage()));
-
-            return false;
-        } catch (RuntimeException $e) {
-            $logger = $this->container->get('logger');
-            $logger->error(sprintf("[Mongo] Update Error: %s", $e->getMessage()));
-
-            return false;
-        }
-    }
-
-    /**
-     * 批量更新
-     * @param array $query 查询条件
-     * @param array $data 更新数据
-     * @return int/bool 影响的行数
-     */
-    protected function batchUpdate($query, $data)
-    {
-        try {
             $result = $this->_collection->updateMany($query, ['$set' => $data]);
 
             return $result->getModifiedCount();
         } catch (UnsupportedException $e) {
-            $logger = $this->container->get('logger');
-            $logger->error(sprintf("[Mongo] BatchUpdate Error: %s", $e->getMessage()));
+            $this->container->logger->error(sprintf("[Mongo] Update Error: %s", $e->getMessage()));
+
+            if (env('ERROR_MAIL', false)) {
+                MailerHelper::sendErrorMail($e);
+            }
 
             return false;
         } catch (InvalidArgumentException $e) {
-            $logger = $this->container->get('logger');
-            $logger->error(sprintf("[Mongo] BatchUpdate Error: %s", $e->getMessage()));
+            $this->container->logger->error(sprintf("[Mongo] Update Error: %s", $e->getMessage()));
+
+            if (env('ERROR_MAIL', false)) {
+                MailerHelper::sendErrorMail($e);
+            }
 
             return false;
         } catch (BulkWriteException $e) {
-            $logger = $this->container->get('logger');
-            $logger->error(sprintf("[Mongo] BatchUpdate Error: %s", $e->getMessage()));
+            $this->container->logger->error(sprintf("[Mongo] Update Error: %s", $e->getMessage()));
+
+            if (env('ERROR_MAIL', false)) {
+                MailerHelper::sendErrorMail($e);
+            }
 
             return false;
         } catch (RuntimeException $e) {
-            $logger = $this->container->get('logger');
-            $logger->error(sprintf("[Mongo] BatchUpdate Error: %s", $e->getMessage()));
+            $this->container->logger->error(sprintf("[Mongo] Update Error: %s", $e->getMessage()));
+
+            if (env('ERROR_MAIL', false)) {
+                MailerHelper::sendErrorMail($e);
+            }
 
             return false;
         }
@@ -248,61 +243,39 @@ class Mongo
     protected function delete($query)
     {
         try {
-            $result = $this->_collection->deleteOne($query);
+            $result = $this->_collection->deleteMany($query);
 
             return $result->getDeletedCount();
         } catch (UnsupportedException $e) {
-            $logger = $this->container->get('logger');
-            $logger->error(sprintf("[Mongo] Delete Error: %s", $e->getMessage()));
+            $this->container->logger->error(sprintf("[Mongo] Delete Error: %s", $e->getMessage()));
+
+            if (env('ERROR_MAIL', false)) {
+                MailerHelper::sendErrorMail($e);
+            }
 
             return false;
         } catch (InvalidArgumentException $e) {
-            $logger = $this->container->get('logger');
-            $logger->error(sprintf("[Mongo] Delete Error: %s", $e->getMessage()));
+            $this->container->logger->error(sprintf("[Mongo] Delete Error: %s", $e->getMessage()));
+
+            if (env('ERROR_MAIL', false)) {
+                MailerHelper::sendErrorMail($e);
+            }
 
             return false;
         } catch (BulkWriteException $e) {
-            $logger = $this->container->get('logger');
-            $logger->error(sprintf("[Mongo] Delete Error: %s", $e->getMessage()));
+            $this->container->logger->error(sprintf("[Mongo] Delete Error: %s", $e->getMessage()));
+
+            if (env('ERROR_MAIL', false)) {
+                MailerHelper::sendErrorMail($e);
+            }
 
             return false;
         } catch (RuntimeException $e) {
-            $logger = $this->container->get('logger');
-            $logger->error(sprintf("[Mongo] Delete Error: %s", $e->getMessage()));
+            $this->container->logger->error(sprintf("[Mongo] Delete Error: %s", $e->getMessage()));
 
-            return false;
-        }
-    }
-
-    /**
-     * 批量删除
-     * @param array $query 查询条件
-     * @return bool
-     */
-    protected function batchDelete($query)
-    {
-        try {
-            $result = $this->_collection->deleteMany($query);
-
-            return $result;
-        } catch (UnsupportedException $e) {
-            $logger = $this->container->get('logger');
-            $logger->error(sprintf("[Mongo] BatchDelete Error: %s", $e->getMessage()));
-
-            return false;
-        } catch (InvalidArgumentException $e) {
-            $logger = $this->container->get('logger');
-            $logger->error(sprintf("[Mongo] BatchDelete Error: %s", $e->getMessage()));
-
-            return false;
-        } catch (BulkWriteException $e) {
-            $logger = $this->container->get('logger');
-            $logger->error(sprintf("[Mongo] BatchDelete Error: %s", $e->getMessage()));
-
-            return false;
-        } catch (RuntimeException $e) {
-            $logger = $this->container->get('logger');
-            $logger->error(sprintf("[Mongo] BatchDelete Error: %s", $e->getMessage()));
+            if (env('ERROR_MAIL', false)) {
+                MailerHelper::sendErrorMail($e);
+            }
 
             return false;
         }

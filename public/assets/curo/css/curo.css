@@ -10,7 +10,7 @@ Structure of CSS
 
 1. General Layout
 2. Section Style Section
-3. Header  
+3. Header
 
 *********************************************************************/
 /********************************************************************/
@@ -2817,7 +2817,7 @@ button {
 .nav-dropdown-grid .item-grid-container .item-grid {
   list-style-type: none;
   overflow-y: auto;
-  padding: 5px;
+  padding: 4px;
   max-height: 340px;
 }
 .nav-dropdown-grid .item-grid-container .item-grid li {
@@ -4864,7 +4864,7 @@ header .navbar-main .dropdown-menu {
 .sidebar .sidebar-wrapper .search-form-container .search-form > button {
   position: absolute;
   right: 5px;
-  top: 5px;
+  top: 4px;
   background: none;
   border: none;
   outline: none;

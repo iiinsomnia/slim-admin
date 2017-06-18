@@ -13,63 +13,58 @@ class HomeController extends Controller
         parent::__construct($c, 'home');
     }
 
-    public function actionHome($request, $response, $args)
+    public function home($request, $response, $args)
     {
-        return $this->render($response, 'index');
+        return $this->render($response, 'index', [
+            'serverOS'    => PHP_OS,
+            'serverSoft'  => $_SERVER['SERVER_SOFTWARE'],
+            'serverIP'    => $_SERVER['SERVER_ADDR'],
+            'serverHost'  => $_SERVER['SERVER_NAME'],
+            'PHPVersion'  => PHP_VERSION,
+            'copyright'   => 'IIInsomnia 2017',
+        ]);
     }
 
-    public function actionRegister($request, $response, $args)
+    public function register($request, $response, $args)
     {
-        if ($request->isGet()) {
-            return $this->render($response, 'register');
-        }
-
-        $input = $request->getParsedBody();
-
-        $errors = ValidateHelper::validate($input, $this->container->Auth->registerRules());
-
-        if (!empty($errors)) {
-            $this->success = false;
-            $this->msg = $errors;
-
-            return $this->json($response);;
-        }
-
-        $this->container->Auth->register($input, $this->success, $this->msg);
-
-        return $this->json($response, 'login');
+        return $this->render($response, 'register');
     }
 
-    public function actionLogin($request, $response, $args)
+    public function login($request, $response, $args)
     {
         if ($request->isGet()) {
+            if (!$this->isGuest()) {
+                return $this->redirect($response, 'home');
+            }
+
             return $this->render($response, 'login');
         }
 
         $input = $request->getParsedBody();
 
-        $errors = ValidateHelper::validate($input, $this->container->Auth->loginRules());
+        $errors = ValidateHelper::validate($input, $this->container->Auth->rules());
 
         if (!empty($errors)) {
-            $this->success = false;
-            $this->msg = $errors;
-
-            return $this->json($response);;
+            return $this->json($response, false, $errors);
         }
 
-        $this->container->Auth->login($input, $this->success, $this->msg);
+        $result = $this->container->Auth->login($input);
 
-        return $this->json($response, 'home');
+        if (!$result['success']) {
+            return $this->json($response, false, $result['msg']);
+        }
+
+        return $this->json($response, true, $result['msg'], [], ['home']);
     }
 
-    public function actionLogout($request, $response, $args)
+    public function logout($request, $response, $args)
     {
         $this->container->Auth->logout();
 
         return $this->redirect($response, 'login');
     }
 
-    public function actionCaptcha($request, $response, $args)
+    public function captcha($request, $response, $args)
     {
         $response = $response->withHeader('Content-Type', 'image/jpeg');
 

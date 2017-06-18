@@ -96,20 +96,34 @@ if (!env('APP_DEBUG', false)) {
     // 404NotFound
     $container['notFoundHandler'] = function ($c) {
         return function ($request, $response) use ($c) {
-            return $response->withJson([
-                'code' => 404,
-                'msg' => 'page not found',
-            ], 200);
+            if ($request->isXhr()) {
+                return $response->withJson([
+                    'success' => false,
+                    'msg'     => 'page not found',
+                ], 200);
+            }
+
+            return $c->view->render($response, 'error/error.twig', [
+                'title' => 404,
+                'msg'   => 'page not found',
+            ]);
         };
     };
 
     // 405NotAllowed
     $container['notAllowedHandler'] = function ($c) {
         return function ($request, $response, $methods) use ($c) {
-            return $response->withJson([
-                'code' => 405,
-                'msg' => 'method not allowed',
-            ], 200);
+            if ($request->isXhr()) {
+                return $response->withJson([
+                    'success' => false,
+                    'msg'     => 'method not allowed',
+                ], 200);
+            }
+
+            return $c->view->render($response, 'error/error.twig', [
+                'title' => 405,
+                'msg'   => 'method not allowed',
+            ]);
         };
     };
 
@@ -126,10 +140,17 @@ if (!env('APP_DEBUG', false)) {
                 \App\Helpers\MailerHelper::sendErrorMail($error);
             }
 
-            return $response->withJson([
-                'code' => 500,
-                'msg' => 'server internal error',
-            ], 200);
+            if ($request->isXhr()) {
+                return $response->withJson([
+                    'success' => false,
+                    'msg'     => 'server internal error',
+                ], 200);
+            }
+
+            return $c->view->render($response, 'error/error.twig', [
+                'title' => 500,
+                'msg'   => 'server internal error',
+            ]);
         };
     };
 
@@ -146,10 +167,17 @@ if (!env('APP_DEBUG', false)) {
                 \App\Helpers\MailerHelper::sendErrorMail($error);
             }
 
-            return $response->withJson([
-                'code' => 500,
-                'msg' => 'server internal error',
-            ], 200);
+            if ($request->isXhr()) {
+                return $response->withJson([
+                    'success' => false,
+                    'msg'     => 'server internal error',
+                ], 200);
+            }
+
+            return $c->view->render($response, 'error/error.twig', [
+                'title' => 500,
+                'msg'   => 'server internal error',
+            ]);
         };
     };
 }

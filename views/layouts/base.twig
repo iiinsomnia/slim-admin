@@ -10,24 +10,24 @@
         <meta name="keywords" content="{% block keywords %}slim{% endblock %}"/>
         <meta name="author" content="{% block author %}IIInsomnia{% endblock %}"/>
 
-        <link rel="shortcut icon" href="favicon.png">
+        <link rel="shortcut icon" href="/favicon.png">
 
         <!-- CSS Files -->
-        <link rel="stylesheet" type="text/css" href="assets/curo/css/bootstrap.min.css"/>
-        <link rel="stylesheet" type="text/css" href="assets/curo/css/font-awesome.min.css"/>
-        <link rel="stylesheet" type="text/css" href="assets/curo/css/animate.css"/>
-        <link rel="stylesheet" type="text/css" href="assets/curo/css/toastr.min.css" />
-        <link rel="stylesheet" type="text/css" href="assets/curo/css/curo.css"/>
+        <link rel="stylesheet" type="text/css" href="/assets/curo/css/bootstrap.min.css?v={{ version }}?v={{ version }}"/>
+        <link rel="stylesheet" type="text/css" href="/assets/curo/css/font-awesome.min.css?v={{ version }}?v={{ version }}"/>
+        <link rel="stylesheet" type="text/css" href="/assets/curo/css/animate.css?v={{ version }}?v={{ version }}"/>
+        <link rel="stylesheet" type="text/css" href="/assets/curo/css/toastr.min.css?v={{ version }}?v={{ version }}" />
+        <link rel="stylesheet" type="text/css" href="/assets/curo/css/curo.css?v={{ version }}?v={{ version }}"/>
         {% block css %}{% endblock %}
-        <link rel="stylesheet" type="text/css" href="assets/css/site.css"/>
+        <link rel="stylesheet" type="text/css" href="/assets/css/site.css?v={{ version }}?v={{ version }}"/>
         <!-- End CSS Files -->
     </head>
 
-    <body class="header-fixed skin-blue">
+    <body class="{% block body_class %}header-fixed skin-blue{% endblock %}">
         <!-- Header Section -->
         <header>
             <!-- Product Logo -->
-            <a href="javascript:void(0);" class="logo hidden-xs">
+            <a href="{{ path_for('home') }}" class="logo hidden-xs">
                 <span class="icon">
                     <i class="fa fa-cube"></i>
                 </span>
@@ -139,13 +139,7 @@
             <div class="content container-fluid sidebarRight animated fadeInUp">
                 <div class="row">
                     <div class="col-sm-12">
-                        {% block breadcrumb %}
-                            <ol class="breadcrumb">
-                                <li><a href="index.html">Home</a></li>
-                                <li><a href="empty.html">Pages</a></li>
-                                <li class="active"><a>Empty Page</a></li>
-                            </ol>
-                        {% endblock %}
+                        {% block breadcrumb %}{% endblock %}
                         {% block content %}{% endblock %}
                     </div>
                 </div>
@@ -167,15 +161,15 @@
         </script>
 
         <!-- Javascripts -->
-        <script type="text/javascript" src="assets/curo/js/jquery-2.1.1.min.js"></script>
-        <script type="text/javascript" src="assets/curo/js/pace.min.js"></script>
-        <script type="text/javascript" src="assets/curo/js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="assets/curo/js/jquery.slimscroll.min.js"></script>
-        <script type="text/javascript" src="assets/curo/js/placeholders.min.js"></script>
-        <script type="text/javascript" src="assets/curo/js/toastr.min.js"></script>
-        <script type="text/javascript" src="assets/curo/js/nav.js"></script>
-        <script type="text/javascript" src="assets/curo/js/custom.js"></script>
-        <script type="text/javascript" src="assets/js/common/alert.js"></script>
+        <script type="text/javascript" src="/assets/curo/js/jquery-2.1.1.min.js?v={{ version }}"></script>
+        <script type="text/javascript" src="/assets/curo/js/pace.min.js?v={{ version }}"></script>
+        <script type="text/javascript" src="/assets/curo/js/bootstrap.min.js?v={{ version }}"></script>
+        <script type="text/javascript" src="/assets/curo/js/jquery.slimscroll.min.js?v={{ version }}"></script>
+        <script type="text/javascript" src="/assets/curo/js/placeholders.min.js?v={{ version }}"></script>
+        <script type="text/javascript" src="/assets/curo/js/toastr.min.js?v={{ version }}"></script>
+        <script type="text/javascript" src="/assets/curo/js/nav.js?v={{ version }}"></script>
+        <script type="text/javascript" src="/assets/curo/js/custom.js?v={{ version }}"></script>
+        <script type="text/javascript" src="/assets/js/common/alert.js?v={{ version }}"></script>
         {% block js %}{% endblock %}
         <!-- End Javascripts -->
     </body>

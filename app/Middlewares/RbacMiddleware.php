@@ -1,19 +1,14 @@
 <?php
 namespace App\Middlewares;
 
+use App\Helpers\SessionHelper;
 use Psr\Container\ContainerInterface;
 
-class AuthMiddleware
+class RbacMiddleware
 {
-    protected $code;
-    protected $msg;
-
     protected $container;
 
     function __construct(ContainerInterface $c) {
-        $this->code = 0;
-        $this->msg = 'success';
-
         $this->container = $c;
     }
 
@@ -28,38 +23,24 @@ class AuthMiddleware
      */
     public function __invoke($request, $response, $next)
     {
-        $accessSign = $request->getHeader('Access-Sign');
-        $accessTime = $request->getHeader('Access-Time');
-        $uuid = $request->getHeader('Access-UUID');
+        $route = $request->getAttribute('route');
 
-        if (empty($accessSign) || empty($accessTime) || empty($uuid)) {
-            return $response->withJson([
-                'code' => 403,
-                'msg'  => 'invalid token, access failed!',
-            ], 200);
-        }
+        // 路由权限验证
+        $pass = $this->auth($route->getName());
 
-        // 登录验证
-        $login = $this->validateLogin($uuid[0]);
+        if (!$pass) {
+            if ($request->isXhr()) {
+                return $response->withJson([
+                    'success' => false,
+                    'msg'     => '权限不足',
+                    'data'    => [],
+                ], 200);
+            }
 
-        if (!$login) {
-            return $response->withJson([
-                'code' => $this->code,
-                'msg' => $this->msg,
-            ], 200);
-        }
-
-        // 验签
-        $path = $request->getUri()->getPath();
-        $query = $request->getQueryParams();
-
-        $success = $this->validateSign($uuid[0], $accessTime[0], $accessSign[0], $path, $query);
-
-        if (!$success) {
-            return $response->withJson([
-                'code' => $this->code,
-                'msg' => $this->msg,
-            ], 200);
+            return $this->container->view->render($response, 'error/error.twig', [
+                'title' => 403,
+                'msg'   => '权限不足',
+            ]);
         }
 
         $response = $next($request, $response);
@@ -67,54 +48,16 @@ class AuthMiddleware
         return $response;
     }
 
-    // 验证登录
-    protected function validateLogin($uuid)
+    // 验证路由权限
+    protected function auth($route)
     {
-        $loginInfo = $this->container->AuthCache->getAuthData($uuid);
+        $user = json_decode(SessionHelper::get('user'), true);
 
-        if (empty($loginInfo)) {
-            $this->code = 401;
-            $this->msg = '用户未登录';
-
+        if (empty($user)) {
             return false;
         }
 
-        if ($loginInfo['expire_time'] > 0 && $loginInfo['expire_time'] <= time()) {
-            $this->code = 401;
-            $this->msg = '登录已过期';
-
-            return false;
-        }
-
-        return true;
-    }
-
-    // 验签
-    protected function validateSign($uuid, $accessTime, $accessSign, $path, $query)
-    {
-        $accessExpire = env('ACCESS_EXPIRE', 0);
-
-        if (is_numeric($accessExpire) && $accessExpire > 0) {
-            if (time() - $accessTime >= $accessExpire) {
-                $this->code = -1;
-                $this->msg = '请求已失效';
-
-                return false;
-            }
-        }
-
-        $token = $this->container->AuthCache->getAuthToken($uuid);
-
-        array_shift($query);
-        $query['token'] = $token;
-        $query['timestamp'] = $accessTime;
-
-        $signUrl = sprintf("%s?%s", $path, http_build_query($query));
-
-        if (strtolower($accessSign) != md5($signUrl)) {
-            $this->code = -1;
-            $this->msg = '验签失败';
-
+        if (!in_array($route, $user['route'])) {
             return false;
         }
 

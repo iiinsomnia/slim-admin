@@ -6,9 +6,6 @@ use Psr\Container\ContainerInterface;
 
 class AuthMiddleware
 {
-    protected $success = true;
-    protected $msg = 'success';
-
     protected $container;
 
     function __construct(ContainerInterface $c) {
@@ -27,20 +24,21 @@ class AuthMiddleware
     public function __invoke($request, $response, $next)
     {
         // 登录验证
-        $this->auth();
+        $pass = $this->auth();
 
-        if (!$this->success) {
+        if (!$pass) {
             $uri = $this->container->router->pathFor('login');
 
             if ($request->isXhr()) {
                 return $response->withJson([
-                    'success' => $this->success,
-                    'msg'     => $this->msg,
-                    'data'    => ['next' => $uri],
+                    'success'  => false,
+                    'msg'      => '登录已过期',
+                    'data'     => [],
+                    'redirect' => $uri,
                 ], 200);
-            } else {
-                return $response->withStatus(302)->withHeader('Location', $uri);
             }
+
+            return $response->withStatus(302)->withHeader('Location', $uri);
         }
 
         $response = $next($request, $response);
@@ -51,35 +49,24 @@ class AuthMiddleware
     // 验证登录
     protected function auth()
     {
-        if (!SessionHelper::has('user')) {
-            $this->success = false;
-            $this->msg = '登录已过期';
+        $user = json_decode(SessionHelper::get('user'), true);
 
-            return;
+        if (empty($user)) {
+            return false;
         }
 
-        $loginInfo = json_decode(SessionHelper::get('user'), true);
+        $profile = $user['profile'];
 
-        if (empty($loginInfo)) {
-            $this->success = false;
-            $this->msg = '登录已过期';
+        if ($profile['duration'] != 0) {
+            $duration = time() - strtotime($profile['last_login_time']);
 
-            return;
-        }
-
-        if ($loginInfo['duration'] != 0) {
-            $duration = time() - strtotime($loginInfo['last_login_time']);
-
-            if ($duration >= $loginInfo['duration']) {
+            if ($duration >= $profile['duration']) {
                 SessionHelper::destroy();
 
-                $this->success = false;
-                $this->msg = '登录已过期';
-
-                return;
+                return false;
             }
         }
 
-        return;
+        return true;
     }
 }

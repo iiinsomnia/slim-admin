@@ -8,13 +8,13 @@
         <meta name="description" content="{% block description %}this is a slim app{% endblock %}"/>
         <meta name="keywords" content="{% block keywords %}slim{% endblock %}"/>
         <meta name="author" content="{% block author %}IIInsomnia{% endblock %}"/>
-        <link rel="shortcut icon" href="favicon.png">
+        <link rel="shortcut icon" href="/favicon.png">
 
         <!-- CSS Files -->
-        <link rel="stylesheet" type="text/css" href="assets/curo/css/bootstrap.min.css"/>
-        <link rel="stylesheet" type="text/css" href="assets/curo/css/font-awesome.min.css"/>
-        <link rel="stylesheet" type="text/css" href="assets/curo/css/toastr.min.css" />
-        <link rel="stylesheet" type="text/css" href="assets/curo/css/curo.css"/>
+        <link rel="stylesheet" type="text/css" href="/assets/curo/css/bootstrap.min.css?v={{ version }}"/>
+        <link rel="stylesheet" type="text/css" href="/assets/curo/css/font-awesome.min.css?v={{ version }}"/>
+        <link rel="stylesheet" type="text/css" href="/assets/curo/css/toastr.min.css?v={{ version }}" />
+        <link rel="stylesheet" type="text/css" href="/assets/curo/css/curo.css?v={{ version }}"/>
         {% block css %}{% endblock %}
         <!-- End CSS Files -->
     </head>
@@ -37,10 +37,10 @@
         </script>
 
         <!-- Javascripts -->
-        <script type="text/javascript" src="assets/curo/js/jquery-2.1.1.min.js"></script>
-        <script type="text/javascript" src="assets/curo/js/pace.min.js"></script>
-        <script type="text/javascript" src="assets/curo/js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="assets/curo/js/toastr.min.js"></script>
+        <script type="text/javascript" src="/assets/curo/js/jquery-2.1.1.min.js?v={{ version }}"></script>
+        <script type="text/javascript" src="/assets/curo/js/pace.min.js?v={{ version }}"></script>
+        <script type="text/javascript" src="/assets/curo/js/bootstrap.min.js?v={{ version }}"></script>
+        <script type="text/javascript" src="/assets/curo/js/toastr.min.js?v={{ version }}"></script>
         {% block js %}{% endblock %}
         <!-- End Javascripts -->
     </body>

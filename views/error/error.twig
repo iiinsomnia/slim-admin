@@ -1,0 +1,23 @@
+{% extends 'layouts/normal.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body_class %}error-page{% endblock %}
+
+{% block content %}
+    <div class="content">
+        <div class="row">
+            <div class="col-sm-12">
+                <h1 class="title">{{ title }}</h1>
+            </div>
+            <div class="col-sm-12">
+                <p class="message">{{ msg }}</p>
+            </div>
+            <div class="col-sm-12">
+                <p>
+                    <a href="javascript:window.history.back()" class="btn btn-blue btn-lg"><i class="fa fa-arrow-left"></i> 返回</a>
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

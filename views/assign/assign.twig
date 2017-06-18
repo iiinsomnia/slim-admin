@@ -1,0 +1,49 @@
+{% extends "layouts/main.twig" %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="/assets/js/multi-select/css/multi-select.css?v={{ version }}"/>
+{% endblock %}
+
+{% block page_title %}角色管理#路由分配{% endblock %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li><a href="{{ path_for('home') }}"><i class="fa fa-home fa-lg"></i>首页</a></li>
+        <li><a href="{{ path_for('role.index') }}">角色列表</a></li>
+        <li class="active"><a>路由分配#{{ roleName }}</a></li>
+    </ol>
+{% endblock %}
+
+{% block content %}
+    <div id="assign_panel" class="panel panel-white border-top-green">
+        <div class="panel-body">
+            <form id="ajax_form" role="form" action="{{ path_for('role.assign', {'roleId': roleId}) }}">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <select id='multiple' name="route[]" multiple='multiple'>
+                                {% for v in routes %}
+                                    <option value="{{ v }}" {{ v in assigns ? 'selected' : '' }}>{{ v }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 align-center">
+                        <button type="reset" class="btn btn-default"><i class="fa fa-undo"></i> 重置</button>
+                        <button type="submit" class="btn btn-green"><i class="fa fa-check"></i> 提交</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript" src="/assets/js/multi-select/jquery.quicksearch.js?v={{ version }}"></script>
+    <script type="text/javascript" src="/assets/js/multi-select/js/jquery.multi-select.js?v={{ version }}"></script>
+    <script type="text/javascript" src="/assets/js/common/form.js?v={{ version }}"></script>
+    <script type="text/javascript" src="/assets/js/multiple.js?v={{ version }}"></script>
+{% endblock %}

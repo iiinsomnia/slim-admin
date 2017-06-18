@@ -1,0 +1,90 @@
+{% extends "layouts/main.twig" %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="/assets/js/chosen/chosen.min.css?v={{ version }}"/>
+{% endblock %}
+
+{% block page_title %}用户管理#用户列表{% endblock %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li><a href="{{ path_for('home') }}"><i class="fa fa-home fa-lg"></i>首页</a></li>
+        <li class="active"><a>用户列表</a></li>
+    </ol>
+{% endblock %}
+
+{% block content %}
+    {{ include('user/search.twig') }}
+
+    <div class="panel panel-white border-top-green">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                {% if 'user.add' in user.route %}
+                    <a href="{{ path_for('user.add') }}" class="btn btn-success btn-xs white"><i class="fa fa-user-plus"></i> 添加</a>
+                {% else %}
+                    &nbsp;
+                {% endif %}
+            </h3>
+            <div class="controls pull-right">共 <span id="count">{{ list.count }}</span> 条记录</div>
+        </div>
+
+        <div class="panel-body no-padding">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>用户名</th>
+                            <th>手机</th>
+                            <th>邮箱</th>
+                            <th>角色</th>
+                            <th>最近登录时间</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="data_body" data-url="{{ path_for('user.index') }}">
+                        {% if list.data|length > 0 %}
+                            {% for v in list.data %}
+                                <tr>
+                                    <td>{{ v.id }}</td>
+                                    <td>{{ v.username }}</td>
+                                    <td>{{ v.phone }}</td>
+                                    <td>{{ v.email }}</td>
+                                    <td>{{ v.rolename }}</td>
+                                    <td>{{ v.last_login_time }}</td>
+                                    <td>
+                                        {% if 'user.edit' in user.route %}
+                                            <a href="{{ path_for('user.edit', {'id': v.id}) }}"><span class="badge bg-light-green"><i class="fa fa-edit"></i>编辑</span></a>
+                                        {% endif %}
+
+                                        {% if 'password.reset' in user.route %}
+                                            <a href="javascript:void(0);" class="reset" data-url="{{ path_for('password.reset', {'id': v.id}) }}"><span class="badge bg-light-orange"><i class="fa fa-undo"></i>重置密码</span></a>
+                                        {% endif %}
+
+                                        {% if 'user.delete' in user.route %}
+                                            <a href="javascript:void(0);" class="delete" data-url="{{ path_for('user.delete', {'id': v.id}) }}"><span class="badge bg-light-red"><i class="fa fa-trash-o"></i>删除</span></a>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="7"><i>未找到数据！</i></td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+
+            {% if list.pages > 1 %}
+                {{ include('layouts/includes/pagination.twig') }}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript" src="/assets/js/chosen/chosen.jquery.min.js?v={{ version }}"></script>
+    <script type="text/javascript" src="/assets/js/common/pagination.js?v={{ version }}"></script>
+    <script type="text/javascript" src="/assets/js/app.js?v={{ version }}"></script>
+{% endblock %}

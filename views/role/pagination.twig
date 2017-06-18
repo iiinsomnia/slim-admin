@@ -1,0 +1,25 @@
+{% if data|length > 0 %}
+    {% for v in data %}
+        <tr>
+            <td>{{ v.id }}</td>
+            <td>{{ v.name }}</td>
+            <td>
+                {% if 'role.edit' in user.route %}
+                    <a href="{{ path_for('role.edit', {'id': v.id}) }}"><span class="badge bg-light-green"><i class="fa fa-edit"></i>编辑</span></a>
+                {% endif %}
+
+                {% if 'role.assign' in user.route %}
+                    <a href="{{ path_for('role.assign', {'roleId': v.id}) }}"><span class="badge bg-light-green"><i class="fa fa-cogs"></i>分配路由</span></a>
+                {% endif %}
+
+                {% if 'role.delete' in user.route %}
+                    <a href="javascript:void(0);" class="delete" data-url="{{ path_for('role.delete', {'id': v.id}) }}"><span class="badge bg-light-red"><i class="fa fa-trash-o"></i>删除</span></a>
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+{% else %}
+    <tr>
+        <td colspan="3"><i>未找到数据！</i></td>
+    </tr>
+{% endif %}

@@ -11,7 +11,7 @@
         toastr.success(msg);
 
         if(callback){
-            setTimeout(callback, 2000);
+            setTimeout(callback, 1000);
         }
     }
 
@@ -23,7 +23,7 @@
         toastr.info(msg);
 
         if(callback){
-            setTimeout(callback, 2000);
+            setTimeout(callback, 1000);
         }
     }
 
@@ -35,7 +35,7 @@
         toastr.warning(msg);
 
         if(callback){
-            setTimeout(callback, 2000);
+            setTimeout(callback, 1000);
         }
     }
 
@@ -47,7 +47,7 @@
         toastr.error(msg);
 
         if(callback){
-            setTimeout(callback, 2000);
+            setTimeout(callback, 1000);
         }
     }
 

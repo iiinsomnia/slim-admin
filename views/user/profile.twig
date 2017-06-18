@@ -1,0 +1,34 @@
+{% extends 'layouts/main.twig' %}
+
+{% block page_title %}个人信息{% endblock %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li><a href="{{ path_for('home') }}"><i class="fa fa-home fa-lg"></i>首页</a></li>
+        <li class="active"><a>个人信息</a></li>
+    </ol>
+{% endblock %}
+
+{% block content %}
+    <div class="col-sm-8 col-sm-offset-2">
+        <div class="panel panel-white profile-widget">
+            <div class="row">
+
+                <div class="col-sm-12">
+                    <div class="image-container bg2">
+                        <img src="/assets/curo/img/people/1.jpg" class="avatar" alt="avatar">
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="details">
+                        <h2>{{ user.profile.username }}</h2>
+                        <h4><i class="fa fa-mobile fa-lg"></i> {{ user.profile.phone }}</h4>
+                        <h4><i class="fa fa-envelope-o"></i> {{ user.profile.email }}</h4>
+                        <h4><i class="fa fa-leaf"></i> {{ user.profile.rolename }}</h4>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

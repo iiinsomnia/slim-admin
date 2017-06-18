@@ -16,7 +16,6 @@ $(document).on('click', '.panel-heading .clickable', function (e) {
 //End Collapsable Panel
 
 //Theme Switcher
-$("head link[rel='stylesheet']").last().after("<link rel='stylesheet' href='assets/css/switcher.css' type='text/css'>");
 
 var switcherHTML="";
 switcherHTML += "<div id=\"switcher\">";

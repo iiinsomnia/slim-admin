@@ -1,0 +1,29 @@
+{% if data|length > 0 %}
+    {% for v in data %}
+        <tr>
+            <td>{{ v.id }}</td>
+            <td>{{ v.username }}</td>
+            <td>{{ v.phone }}</td>
+            <td>{{ v.email }}</td>
+            <td>{{ v.rolename }}</td>
+            <td>{{ v.last_login_time }}</td>
+            <td>
+                {% if 'user.edit' in user.route %}
+                    <a href="{{ path_for('user.edit', {'id': v.id}) }}"><span class="badge bg-light-green"><i class="fa fa-edit"></i>编辑</span></a>
+                {% endif %}
+
+                {% if 'password.reset' in user.route %}
+                    <a href="javascript:void(0);" class="reset" data-url="{{ path_for('password.reset', {'id': v.id}) }}"><span class="badge bg-light-orange"><i class="fa fa-undo"></i>重置密码</span></a>
+                {% endif %}
+
+                {% if 'user.delete' in user.route %}
+                    <a href="javascript:void(0);" class="delete" data-url="{{ path_for('user.delete', {'id': v.id}) }}"><span class="badge bg-light-red"><i class="fa fa-trash-o"></i>删除</span></a>
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+{% else %}
+    <tr>
+        <td colspan="7"><i>未找到数据！</i></td>
+    </tr>
+{% endif %}
