@@ -7,7 +7,7 @@
 * 使用Laravel/Database、MongoDB、Predis
 * 支持CLI-Command，用于crontab
 * 支持.env环境配置
-* 全部操作均使用依赖注入
+* 使用依赖注入开发
 * 支持邮件推送系统错误日志
 * 内置登录和RBAC模块
 
