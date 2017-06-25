@@ -7,8 +7,8 @@ return [
         'displayErrorDetails'    => env('APP_DEBUG', false), // set to false in production
         'addContentLengthHeader' => false, // Allow the web server to send the content-length header
 
-        // db settings
-        'db' => [
+        // mysql settings
+        'mysql' => [
             'host'      => env('DB_HOST', '127.0.0.1'),
             'port'      => env('DB_PORT', '3306'),
             'database'  => env('DB_DATABASE', 'test'),

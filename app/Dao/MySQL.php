@@ -22,9 +22,9 @@ class MySQL
      * constructor receives container instance
      * @param ContainerInterface $di container instance
      * @param string $table 表名称
-     * @param string $db 数据库配置名称，默认：db
+     * @param string $db 数据库配置名称，默认：mysql
      */
-    public function __construct(ContainerInterface $c, $table, $db = 'db')
+    public function __construct(ContainerInterface $c, $table, $db = 'mysql')
     {
         $this->_db = $c->get($db);
         $this->_table = $table;

@@ -16,8 +16,8 @@ $container['view'] = function ($c) {
 };
 
 // Illuminate/database
-$container['db'] = function ($c) {
-    $settings = $c->get('settings')['db'];
+$container['mysql'] = function ($c) {
+    $settings = $c->get('settings')['mysql'];
 
     $capsule = new \Illuminate\Database\Capsule\Manager;
 
