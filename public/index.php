@@ -22,9 +22,9 @@ $app = new \Slim\App($settings);
 require __DIR__ . '/../bootstrap/bootstrap.php';
 
 // Set up dao & cache & service providers
-require __DIR__ . '/../provider/dao.php';
-require __DIR__ . '/../provider/cache.php';
-require __DIR__ . '/../provider/service.php';
+require __DIR__ . '/../providers/dao.php';
+require __DIR__ . '/../providers/cache.php';
+require __DIR__ . '/../providers/service.php';
 
 // Register routes
 require __DIR__ . '/../app/routes.php';

@@ -10,7 +10,7 @@ $app = new \Slim\App($settings);
 // Set up bootstrap
 require __DIR__ . '/bootstrap/bootstrap.php';
 // Set up commands
-require __DIR__ . '/provider/commands.php';
+require __DIR__ . '/providers/commands.php';
 
 $di = $app->getContainer();
 
