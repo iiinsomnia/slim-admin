@@ -5,7 +5,7 @@ $app->get('/captcha', '\App\Controllers\HomeController:captcha')->setName('captc
 $app->map(['GET', 'POST'], '/login', '\App\Controllers\HomeController:login')->setName('login');
 $app->get('/logout', '\App\Controllers\HomeController:logout')->setName('logout');
 
-$app->group(null, function () {
+$app->group(null, function() {
     $this->get('/', '\App\Controllers\HomeController:home')->setName('home');
     // profile
     $this->get('/profile', '\App\Controllers\UserController:profile')->setName('profile');
