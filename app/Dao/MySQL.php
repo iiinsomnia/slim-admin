@@ -47,7 +47,7 @@ class MySQL
 
             return $id;
         } catch (QueryException $e) {
-            $logger = $this->container->logger->error(sprintf("[MySQL] Insert Error: %s", $e->getMessage()));
+            $logger = $this->container->logger->error($e->getMessage());
 
             if (env('ERROR_MAIL', false)) {
                 MailerHelper::sendErrorMail($e);
@@ -69,7 +69,7 @@ class MySQL
 
             return $success;
         } catch (QueryException $e) {
-            $logger = $this->container->logger->error(sprintf("[MySQL] BatchInsert Error: %s", $e->getMessage()));
+            $logger = $this->container->logger->error($e->getMessage());
 
             if (env('ERROR_MAIL', false)) {
                 MailerHelper::sendErrorMail($e);
@@ -98,7 +98,7 @@ class MySQL
 
             return $affectRows;
         } catch (QueryException $e) {
-            $logger = $this->container->logger->error(sprintf("[MySQL] Update Error: %s", $e->getMessage()));
+            $logger = $this->container->logger->error($e->getMessage());
 
             if (env('ERROR_MAIL', false)) {
                 MailerHelper::sendErrorMail($e);
@@ -209,7 +209,7 @@ class MySQL
 
             return $affectRows;
         } catch (QueryException $e) {
-            $logger = $this->container->logger->error(sprintf("BatchInsert Error: %s", $e->getMessage()));
+            $logger = $this->container->logger->error($e->getMessage());
 
             if (env('ERROR_MAIL', false)) {
                 MailerHelper::sendErrorMail($e);
@@ -277,7 +277,7 @@ class MySQL
         } catch (QueryException $e) {
             $this->_db::rollback();
 
-            $logger = $this->container->logger->error(sprintf("[MySQL] DoTransaction Error: %s", $e->getMessage()));
+            $logger = $this->container->logger->error($e->getMessage());
 
             if (env('ERROR_MAIL', false)) {
                 MailerHelper::sendErrorMail($e);
