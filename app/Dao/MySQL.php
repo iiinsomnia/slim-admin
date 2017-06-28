@@ -12,7 +12,8 @@ use Psr\Container\ContainerInterface;
  */
 class MySQL
 {
-    private $_db;
+    private $DB;
+    private $_connection;
     private $_table;
     private $_prefix;
 
@@ -22,15 +23,16 @@ class MySQL
      * constructor receives container instance
      * @param ContainerInterface $di container instance
      * @param string $table 表名称
-     * @param string $db 数据库配置名称，默认：mysql
+     * @param string $connection 数据库连接配置，默认：default
      */
-    public function __construct(ContainerInterface $c, $table, $db = 'mysql')
+    public function __construct(ContainerInterface $c, $table, $connection = 'default')
     {
-        $this->_db = $c->get($db);
+        $this->DB = $c->get('db');
+        $this->_connection = $connection;
         $this->_table = $table;
 
-        $settings = $c->get('settings')[$db];
-        $this->_prefix = $settings['prefix'];
+        $config = $c->get('settings')['db'][$connection];
+        $this->_prefix = $config['prefix'];
 
         $this->container = $c;
     }
@@ -43,7 +45,7 @@ class MySQL
     protected function insert($data)
     {
         try {
-            $id = $this->_db::table($this->_table)->insertGetId($data);
+            $id = $this->DB::connection($this->_connection)->table($this->_table)->insertGetId($data);
 
             return $id;
         } catch (QueryException $e) {
@@ -65,7 +67,7 @@ class MySQL
     protected function batchInsert($data)
     {
         try {
-            $success = $this->_db::table($this->_table)->insert($data);
+            $success = $this->DB::connection($this->_connection)->table($this->_table)->insert($data);
 
             return $success;
         } catch (QueryException $e) {
@@ -94,7 +96,7 @@ class MySQL
         $build = $this->_buildUpdate($query, $data);
 
         try {
-            $affectRows = $this->_db::update($build['sql'], $build['binds']);
+            $affectRows = $this->DB::connection($this->_connection)->update($build['sql'], $build['binds']);
 
             return $affectRows;
         } catch (QueryException $e) {
@@ -123,7 +125,7 @@ class MySQL
         $query['select'] = sprintf("COUNT(%s) AS count", $column);
 
         $build = $this->_buildQuery($query);
-        $data = $this->_db::selectOne($build['sql'], $build['binds']);
+        $data = $this->DB::connection($this->_connection)->selectOne($build['sql'], $build['binds']);
 
         return $data->count;
     }
@@ -143,7 +145,7 @@ class MySQL
         $query['limit'] = 1;
 
         $build = $this->_buildQuery($query);
-        $data = $this->_db::selectOne($build['sql'], $build['binds']);
+        $data = $this->DB::connection($this->_connection)->selectOne($build['sql'], $build['binds']);
 
         $result = $this->_toArray($data);
 
@@ -168,7 +170,7 @@ class MySQL
     protected function find($query)
     {
         $build = $this->_buildQuery($query);
-        $data = $this->_db::select($build['sql'], $build['binds']);
+        $data = $this->DB::connection($this->_connection)->select($build['sql'], $build['binds']);
 
         $result = $this->_toArray($data, true);
 
@@ -185,7 +187,7 @@ class MySQL
         $select = implode(',', $columns);
 
         $sql = sprintf("SELECT %s FROM %s%s", $select, $this->_prefix, $this->_table);
-        $data = $this->_db::select($sql);
+        $data = $this->DB::connection($this->_connection)->select($sql);
 
         $result = $this->_toArray($data, true);
 
@@ -205,7 +207,7 @@ class MySQL
     {
         try {
             $build = $this->_buildDelete($query);
-            $affectRows = $this->_db::delete($build['sql'], $build['binds']);
+            $affectRows = $this->DB::connection($this->_connection)->delete($build['sql'], $build['binds']);
 
             return $affectRows;
         } catch (QueryException $e) {
@@ -251,31 +253,31 @@ class MySQL
      */
     protected function doTransaction($operations)
     {
-        $this->_db::beginTransaction();
+        $this->DB::connection($this->_connection)->beginTransaction();
 
         try {
             foreach ($operations as $v) {
                 switch ($v['type']) {
                     case 'insert':
                         $table = !empty($v['table']) ? $v['table'] : $this->_table;
-                        $this->_db::table($table)->insert($v['data']);
+                        $this->DB::connection($this->_connection)->table($table)->insert($v['data']);
                         break;
                     case 'update':
                         $build = $this->_buildUpdate($v['query'], $v['data']);
-                        $this->_db::update($build['sql'], $build['binds']);
+                        $this->DB::connection($this->_connection)->update($build['sql'], $build['binds']);
                         break;
                     case 'delete':
                         $build = $this->_buildDelete($v['query']);
-                        $this->_db::delete($build['sql'], $build['binds']);
+                        $this->DB::connection($this->_connection)->delete($build['sql'], $build['binds']);
                         break;
                 }
             }
 
-            $this->_db::commit();
+            $this->DB::connection($this->_connection)->commit();
 
             return true;
         } catch (QueryException $e) {
-            $this->_db::rollback();
+            $this->DB::connection($this->_connection)->rollback();
 
             $logger = $this->container->logger->error($e->getMessage());
 

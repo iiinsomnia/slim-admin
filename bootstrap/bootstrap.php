@@ -3,7 +3,7 @@
 $container = $app->getContainer();
 
 // slim/twig-view
-$container['view'] = function ($c) {
+$container['view'] = function($c) {
     $view = new \Slim\Views\Twig(__DIR__ . '/../views', [
         'cache' => false,
     ]);
@@ -16,21 +16,14 @@ $container['view'] = function ($c) {
 };
 
 // Illuminate/database
-$container['mysql'] = function ($c) {
-    $settings = $c->get('settings')['mysql'];
+$container['db'] = function($c) {
+    $connections = $c->get('settings')['db'];
 
     $capsule = new \Illuminate\Database\Capsule\Manager;
 
-    $capsule->addConnection([
-        'driver'    => 'mysql',
-        'host'      => $settings['host'],
-        'database'  => $settings['database'],
-        'username'  => $settings['username'],
-        'password'  => $settings['password'],
-        'charset'   => $settings['charset'],
-        'collation' => $settings['collation'],
-        'prefix'    => $settings['prefix'],
-    ]);
+    foreach ($connections as $k => $v) {
+        $capsule->addConnection($v, $k);
+    }
 
     $capsule->setAsGlobal();
 
@@ -38,13 +31,13 @@ $container['mysql'] = function ($c) {
 };
 
 // MongoDB
-$container['mongo'] = function ($c) {
-    $settings = $c->get('settings')['mongo'];
+$container['mongo'] = function($c) {
+    $config = $c->get('settings')['mongo'];
 
-    $dsn = sprintf('mongodb://%s:%s', $settings['host'], $settings['port']);
+    $dsn = sprintf('mongodb://%s:%s', $config['host'], $config['port']);
 
-    if (!empty($settings['username'])) {
-        $dsn = sprintf('mongodb://%s:%s@%s:%s', $settings['username'], $settings['password'], $settings['host'], $settings['port']);
+    if (!empty($config['username'])) {
+        $dsn = sprintf('mongodb://%s:%s@%s:%s', $config['username'], $config['password'], $config['host'], $config['port']);
     }
 
     $client = new \MongoDB\Client($dsn);
@@ -53,49 +46,49 @@ $container['mongo'] = function ($c) {
 };
 
 // Predis
-$container['redis'] = function ($c) {
-    $settings = $c->get('settings')['redis'];
+$container['redis'] = function($c) {
+    $config = $c->get('settings')['redis'];
 
     $client = new \Predis\Client([
         'scheme'   => 'tcp',
-        'host'     => $settings['host'],
-        'port'     => $settings['port'],
-        'password' => $settings['password'],
-        'database' => $settings['database'],
-    ], ['prefix' => $settings['prefix']]);
+        'host'     => $config['host'],
+        'port'     => $config['port'],
+        'password' => $config['password'],
+        'database' => $config['database'],
+    ], ['prefix' => $config['prefix']]);
 
     return $client;
 };
 
 // Flash
-$container['flash'] = function () {
+$container['flash'] = function() {
     return new \Slim\Flash\Messages();
 };
 
 // Monolog
-$container['logger'] = function ($c) {
-    $settings = $c->get('settings')['logger'];
+$container['logger'] = function($c) {
+    $config = $c->get('settings')['logger'];
 
-    $logger = new Monolog\Logger($settings['name']);
-    $logger->pushHandler(new Monolog\Handler\StreamHandler($settings['path'], $settings['level']));
+    $logger = new Monolog\Logger($config['name']);
+    $logger->pushHandler(new Monolog\Handler\StreamHandler($config['path'], $config['level']));
 
     return $logger;
 };
 
 // Captcha
-$container['captcha'] = function ($c) {
-    $settings = $c->get('settings')['captcha'];
+$container['captcha'] = function($c) {
+    $config = $c->get('settings')['captcha'];
 
     $builder = new \Gregwar\Captcha\CaptchaBuilder;
-    $builder->build($settings['width'], $settings['height']);
+    $builder->build($config['width'], $config['height']);
 
     return $builder;
 };
 
 if (!env('APP_DEBUG', false)) {
     // 404NotFound
-    $container['notFoundHandler'] = function ($c) {
-        return function ($request, $response) use ($c) {
+    $container['notFoundHandler'] = function($c) {
+        return function($request, $response) use ($c) {
             if ($request->isXhr()) {
                 return $response->withJson([
                     'success' => false,
@@ -111,8 +104,8 @@ if (!env('APP_DEBUG', false)) {
     };
 
     // 405NotAllowed
-    $container['notAllowedHandler'] = function ($c) {
-        return function ($request, $response, $methods) use ($c) {
+    $container['notAllowedHandler'] = function($c) {
+        return function($request, $response, $methods) use ($c) {
             if ($request->isXhr()) {
                 return $response->withJson([
                     'success' => false,
@@ -128,8 +121,8 @@ if (!env('APP_DEBUG', false)) {
     };
 
     // ErrorHandler
-    $container['errorHandler'] = function ($c) {
-        return function ($request, $response, $error) use ($c) {
+    $container['errorHandler'] = function($c) {
+        return function($request, $response, $error) use ($c) {
             $c['logger']->error(null, [
                     'message' => $error->getMessage(),
                     'file'    => $error->getFile(),
@@ -155,8 +148,8 @@ if (!env('APP_DEBUG', false)) {
     };
 
     // PHPErrorHandler
-    $container['phpErrorHandler'] = function ($c) {
-        return function ($request, $response, $error) use ($c) {
+    $container['phpErrorHandler'] = function($c) {
+        return function($request, $response, $error) use ($c) {
             $c['logger']->error(null, [
                     'message' => $error->getMessage(),
                     'file'    => $error->getFile(),

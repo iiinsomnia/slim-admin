@@ -7,16 +7,21 @@ return [
         'displayErrorDetails'    => env('APP_DEBUG', false), // set to false in production
         'addContentLengthHeader' => false, // Allow the web server to send the content-length header
 
-        // mysql settings
-        'mysql' => [
-            'host'      => env('DB_HOST', '127.0.0.1'),
-            'port'      => env('DB_PORT', '3306'),
-            'database'  => env('DB_DATABASE', 'test'),
-            'username'  => env('DB_USERNAME', 'root'),
-            'password'  => env('DB_PASSWORD', ''),
-            'charset'   => env('DB_CHARSET', 'utf8'),
-            'collation' => env('DB_COLLATION', 'utf8_general_ci'),
-            'prefix'    => env('DB_PREFIX', ''),
+        // db settings
+        'db' => [
+            'default' => [
+                'driver'    => 'mysql',
+                'host'      => env('DB_HOST', '127.0.0.1'),
+                'port'      => env('DB_PORT', '3306'),
+                'database'  => env('DB_DATABASE', 'test'),
+                'username'  => env('DB_USERNAME', 'demo'),
+                'password'  => env('DB_PASSWORD', ''),
+                'charset'   => env('DB_CHARSET', 'utf8'),
+                'collation' => env('DB_COLLATION', 'utf8_general_ci'),
+                'prefix'    => env('DB_PREFIX', ''),
+                'strict'    => false,
+                'engine'    => null,
+            ],
         ],
 
         // MongoDB settings
