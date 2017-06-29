@@ -1,7 +1,8 @@
 <?php
+// params
 return [
     'email' => '847713844@qq.com',
-    'colors' => [
+    'menu_color' => [
         'green',
         'light-green',
         'blue',

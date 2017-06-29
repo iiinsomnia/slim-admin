@@ -1,40 +1,11 @@
 <?php
-// DIC configuration
-$container = $app->getContainer();
-
-$container['Home'] = function($c) {
-    $service = new \App\Service\Home($c);
-
-    return $service;
-};
-
-$container['Menu'] = function($c) {
-    $service = new \App\Service\Menu($c);
-
-    return $service;
-};
-
-$container['Auth'] = function($c) {
-    $service = new \App\Service\Auth($c);
-
-    return $service;
-};
-
-$container['Role'] = function($c) {
-    $service = new \App\Service\Role($c);
-
-    return $service;
-};
-
-$container['Assign'] = function($c) {
-    $service = new \App\Service\Assign($c);
-
-    return $service;
-};
-
-$container['User'] = function($c) {
-    $service = new \App\Service\User($c);
-
-    return $service;
-};
+// Serivce Providers
+return [
+    'Home'   => \App\Service\Home::class,
+    'Menu'   => \App\Service\Menu::class,
+    'Auth'   => \App\Service\Auth::class,
+    'Role'   => \App\Service\Role::class,
+    'Assign' => \App\Service\Assign::class,
+    'User'   => \App\Service\User::class,
+];
 ?>

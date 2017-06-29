@@ -56,7 +56,7 @@ class Auth extends Service
             ];
         }
 
-        $result = $this->signIn($user);
+        $result = $this->signIn($user, 12 * 3600);
 
         if (!$result) {
             return [

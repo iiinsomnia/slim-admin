@@ -43,7 +43,7 @@ class MenuController extends Controller
     public function add($request, $response, $args)
     {
         if ($request->isGet()) {
-            $colors = $this->container->params['colors'];
+            $colors = $this->container->params['menu_color'];
             $routes = $this->container->Auth->getAllRoutes();
 
             return $this->render($response, 'add', [
@@ -111,7 +111,7 @@ class MenuController extends Controller
         if ($request->isGet()) {
             $hasSubmenus = $this->container->Menu->hasSubMenus($args['id']);
 
-            $colors = $this->container->params['colors'];
+            $colors = $this->container->params['menu_color'];
             $routes = !$hasSubmenus ? $this->container->Auth->getAllRoutes() : [];
 
             $data = $this->container->Menu->getMenuDetail($args['id']);

@@ -7,10 +7,8 @@ require __DIR__ . '/bootstrap/env.php';
 $settings = require __DIR__ . '/config/settings.php';
 $app = new \Slim\App($settings);
 
-// Set up bootstrap
-require __DIR__ . '/bootstrap/bootstrap.php';
-// Set up commands
-require __DIR__ . '/providers/commands.php';
+// Set up console
+require __DIR__ . '/bootstrap/console.php';
 
 $di = $app->getContainer();
 

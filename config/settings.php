@@ -1,6 +1,5 @@
 <?php
-$params = require(__DIR__ . '/params.php');
-
+// settings
 return [
     'settings' => [
         'debug'                  => env('APP_DEBUG', false),
@@ -56,6 +55,6 @@ return [
             'height' => env('CAPTCHA_HEIGHT', 34),
         ],
     ],
-    'params' => $params,
+    'params' => require __DIR__ . '/params.php',
 ];
 ?>
