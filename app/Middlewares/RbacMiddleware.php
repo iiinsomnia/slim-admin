@@ -51,13 +51,13 @@ class RbacMiddleware
     // 验证路由权限
     protected function auth($route)
     {
-        $user = json_decode(SessionHelper::get('user'), true);
+        $assigns = json_decode(SessionHelper::get('route'), true);
 
-        if (empty($user)) {
+        if (empty($assigns)) {
             return false;
         }
 
-        if (!in_array($route, $user['route'])) {
+        if (!in_array($route, $assigns)) {
             return false;
         }
 

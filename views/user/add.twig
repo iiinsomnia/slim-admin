@@ -9,7 +9,7 @@
 {% block breadcrumb %}
     <ol class="breadcrumb">
         <li><a href="{{ path_for('home') }}"><i class="fa fa-home fa-lg"></i>首页</a></li>
-        <li><a href="{{ path_for('user.index') }}">用户列表</a></li>
+        <li><a href="{{ path_for('identity.index') }}">用户列表</a></li>
         <li class="active"><a>添加用户</a></li>
     </ol>
 {% endblock %}
@@ -18,7 +18,7 @@
     <div class="col-sm-10 col-sm-offset-1">
         <div class="panel panel-white border-top-green">
             <div class="panel-body">
-                <form id="ajax_form" role="form" action="{{ path_for('user.add') }}">
+                <form id="ajax_form" role="form" action="{{ path_for('identity.add') }}">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">

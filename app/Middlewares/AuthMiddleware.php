@@ -49,18 +49,16 @@ class AuthMiddleware
     // 验证登录
     protected function auth()
     {
-        $user = json_decode(SessionHelper::get('user'), true);
+        $identity = json_decode(SessionHelper::get('identity'), true);
 
-        if (empty($user)) {
+        if (empty($identity)) {
             return false;
         }
 
-        $profile = $user['profile'];
+        if ($identity['duration'] != 0) {
+            $duration = time() - strtotime($identity['last_login_time']);
 
-        if ($profile['duration'] != 0) {
-            $duration = time() - strtotime($profile['last_login_time']);
-
-            if ($duration >= $profile['duration']) {
+            if ($duration >= $identity['duration']) {
                 SessionHelper::destroy();
 
                 return false;

@@ -8,8 +8,8 @@
     <!-- End Menu Item -->
 
     <!-- Menu Item -->
-    {% if user.nav|length > 0 %}
-        {% for menu in user.nav %}
+    {% if identity.nav|length > 0 %}
+        {% for menu in identity.nav %}
             {% if menu.route is empty %}
                 <li class="border-left-{{ menu.color ? menu.color : 'blue' }}">
                     <a href="javascript:void(0);" data-toggle="collapse" data-target="#submenu_{{ menu.id }}">

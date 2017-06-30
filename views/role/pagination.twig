@@ -4,15 +4,15 @@
             <td>{{ v.id }}</td>
             <td>{{ v.name }}</td>
             <td>
-                {% if 'role.edit' in user.route %}
+                {% if 'role.edit' in identity.route %}
                     <a href="{{ path_for('role.edit', {'id': v.id}) }}"><span class="badge bg-light-green"><i class="fa fa-edit"></i>编辑</span></a>
                 {% endif %}
 
-                {% if 'role.assign' in user.route %}
+                {% if 'role.assign' in identity.route %}
                     <a href="{{ path_for('role.assign', {'roleId': v.id}) }}"><span class="badge bg-light-green"><i class="fa fa-cogs"></i>分配路由</span></a>
                 {% endif %}
 
-                {% if 'role.delete' in user.route %}
+                {% if 'role.delete' in identity.route %}
                     <a href="javascript:void(0);" class="delete" data-url="{{ path_for('role.delete', {'id': v.id}) }}"><span class="badge bg-light-red"><i class="fa fa-trash-o"></i>删除</span></a>
                 {% endif %}
             </td>

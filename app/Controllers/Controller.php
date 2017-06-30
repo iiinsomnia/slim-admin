@@ -14,18 +14,15 @@ class Controller
         $this->container = $c;
         $this->viewDir = $dir;
 
-        $this->commonData = [
-            'version' => env('APP_VERSION', '1.0.0'),
-            'user'    => json_decode(SessionHelper::get('user'), true),
-        ];
+        $this->__initCommonData();
     }
 
     // 当前用户是否为游客身份
     protected function isGuest()
     {
-        $user = SessionHelper::get('user');
+        $identity = SessionHelper::get('identity');
 
-        if (empty($user)) {
+        if (empty($identity)) {
             return true;
         }
 
@@ -118,6 +115,20 @@ class Controller
         }
 
         return $response->withJson($result, 200);
+    }
+
+    private function __initCommonData()
+    {
+        $this->commonData = [
+            'version'  => env('APP_VERSION', '1.0.0'),
+            'identity' => [
+                'profile' => json_decode(SessionHelper::get('identity'), true),
+                'nav'     => json_decode(SessionHelper::get('nav'), true),
+                'route'   => json_decode(SessionHelper::get('route'), true),
+            ],
+        ];
+
+        return;
     }
 }
 ?>

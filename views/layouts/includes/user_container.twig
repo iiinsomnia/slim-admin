@@ -4,14 +4,14 @@
             <img src="/assets/curo/img/people/1.jpg" class="img-thumbnail avatar bg-light-green" alt="user profile image">
         </div>
         <div class="pull-left info">
-            <h4 class="name">{{ user.profile.username }}</h4>
-            <h6 class="text-muted extra">{{ user.profile.rolename }}</h6>
+            <h4 class="name">{{ identity.profile.username }}</h4>
+            <h6 class="text-muted extra">{{ identity.profile.rolename }}</h6>
         </div>
     </a>
     <ul class="dropdown-menu" role="menu">
         <li><a href="{{ path_for('profile') }}"><i class="fa fa-user fa-fw icon"></i>个人信息</a></li>
         <li><a href="{{ path_for('password') }}"><i class="fa fa-key fa-fw icon"></i>修改密码</a></li>
-        <li><a><i class="fa fa-clock-o fa-fw icon"></i>{{ user.profile.last_login_time }}</a></li>
+        <li><a><i class="fa fa-clock-o fa-fw icon"></i>{{ identity.profile.last_login_time }}</a></li>
         <li class="divider"></li>
         <li><a href="{{ path_for('logout') }}"><i class="fa fa-sign-out fa-fw icon"></i>注 销</a></li>
     </ul>

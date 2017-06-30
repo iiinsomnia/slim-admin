@@ -7,16 +7,15 @@ use Psr\Container\ContainerInterface;
 
 class Service
 {
-    protected $uid = 0;
-    protected $user = [];
-
+    protected $user;
     protected $container;
 
     function __construct(ContainerInterface $c)
     {
-        $this->_initProfile();
-
+        $this->user = new Identity;
         $this->container = $c;
+
+        $this->_initIdentity();
     }
 
     /**
@@ -49,13 +48,9 @@ class Service
         // 菜单和路由
         $assign = $this->_getUserAssign($profile['role']);
 
-        $loginInfo = [
-            'profile' => $profile,
-            'nav'     => $assign['nav'],
-            'route'   => $assign['route'],
-        ];
-
-        SessionHelper::set('user', json_encode($loginInfo));
+        SessionHelper::set('identity', json_encode($profile));
+        SessionHelper::set('nav', json_encode($assign['nav']));
+        SessionHelper::set('route', json_encode($assign['route']));
 
         return true;
     }
@@ -69,13 +64,14 @@ class Service
     }
 
     // 用户登录信息
-    private function _initProfile()
+    private function _initIdentity()
     {
-        $user = json_decode(SessionHelper::get('user'), true);
+        $identity = json_decode(SessionHelper::get('identity'), true);
 
-        if (!empty($user)) {
-            $this->uid = $user['profile']['id'];
-            $this->user = $user['profile'];
+        if (!empty($identity)) {
+            foreach ($identity as $k => $v) {
+                $this->user->$k = $v;
+            }
         }
 
         return;

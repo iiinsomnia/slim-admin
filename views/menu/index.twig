@@ -19,7 +19,7 @@
     <div class="panel panel-white border-top-green">
         <div class="panel-heading">
             <h3 class="panel-title">
-                {% if 'menu.add' in user.route %}
+                {% if 'menu.add' in identity.route %}
                     <a href="{{ path_for('menu.add') }}" class="btn btn-success btn-xs white"><i class="fa fa-plus"></i> 添加</a>
                 {% else %}
                     &nbsp;
@@ -53,15 +53,15 @@
                                     <td>{{ v.route }}</td>
                                     <td>{{ v.args }}</td>
                                     <td>
-                                        {% if 'menu.edit' in user.route %}
+                                        {% if 'menu.edit' in identity.route %}
                                             <a href="{{ path_for('menu.edit', {'id': v.id}) }}"><span class="badge bg-light-green"><i class="fa fa-edit"></i>编辑</span></a>
                                         {% endif %}
 
-                                        {% if 'menu.submenu' in user.route and v.route is empty %}
+                                        {% if 'menu.submenu' in identity.route and v.route is empty %}
                                             <a href="{{ path_for('menu.submenu', {'pid': v.id}) }}"><span class="badge bg-light-green"><i class="fa fa-plus"></i>添加子菜单</span></a>
                                         {% endif %}
 
-                                        {% if 'menu.delete' in user.route %}
+                                        {% if 'menu.delete' in identity.route %}
                                             <a href="javascript:void(0);" class="delete" data-url="{{ path_for('menu.delete', {'id': v.id}) }}"><span class="badge bg-light-red"><i class="fa fa-trash-o"></i>删除</span></a>
                                         {% endif %}
                                     </td>

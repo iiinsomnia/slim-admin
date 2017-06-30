@@ -136,7 +136,7 @@ class User extends Service
             'salt'     => $salt,
         ];
 
-        $rows = $this->container->UserDao->updateById($this->uid, $data);
+        $rows = $this->container->UserDao->updateById($this->user->id, $data);
 
         return $rows;
     }
