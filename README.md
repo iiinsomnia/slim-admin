@@ -9,12 +9,12 @@
 * 支持.env环境配置
 * 使用依赖注入开发
 * 支持邮件推送系统错误日志
-* 内置登录和基于路由的RBAC模块
+* 内含登录和基于路由的RBAC模块
 
 ### 使用：
 
 ```sh
-# get the framework and dependency libraries
+# download and get the framework and dependency libraries
 composer update
 ```
 
@@ -24,9 +24,7 @@ php cli greet IIInsomnia
 
 # output
 Hello IIInsomnia
-```
 
-```sh
 # display help message
 php cli greet -h
 ```
