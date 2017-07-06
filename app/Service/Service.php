@@ -49,8 +49,7 @@ class Service
         $assign = $this->_getUserAssign($profile['role']);
 
         SessionHelper::set('identity', json_encode($profile));
-        SessionHelper::set('nav', json_encode($assign['nav']));
-        SessionHelper::set('route', json_encode($assign['route']));
+        SessionHelper::set('rbac', json_encode($assign));
 
         return true;
     }

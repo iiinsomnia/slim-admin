@@ -19,8 +19,8 @@
     <div class="panel panel-white border-top-green">
         <div class="panel-heading">
             <h3 class="panel-title">
-                {% if 'identity.add' in identity.route %}
-                    <a href="{{ path_for('identity.add') }}" class="btn btn-success btn-xs white"><i class="fa fa-user-plus"></i> 添加</a>
+                {% if 'user.add' in rbac.route %}
+                    <a href="{{ path_for('user.add') }}" class="btn btn-success btn-xs white"><i class="fa fa-user-plus"></i> 添加</a>
                 {% else %}
                     &nbsp;
                 {% endif %}
@@ -42,7 +42,7 @@
                             <th>操作</th>
                         </tr>
                     </thead>
-                    <tbody id="data_body" data-url="{{ path_for('identity.index') }}">
+                    <tbody id="data_body" data-url="{{ path_for('user.index') }}">
                         {% if list.data|length > 0 %}
                             {% for v in list.data %}
                                 <tr>
@@ -53,16 +53,16 @@
                                     <td>{{ v.rolename }}</td>
                                     <td>{{ v.last_login_time }}</td>
                                     <td>
-                                        {% if 'identity.edit' in identity.route %}
-                                            <a href="{{ path_for('identity.edit', {'id': v.id}) }}"><span class="badge bg-light-green"><i class="fa fa-edit"></i>编辑</span></a>
+                                        {% if 'user.edit' in rbac.route %}
+                                            <a href="{{ path_for('user.edit', {'id': v.id}) }}"><span class="badge bg-light-green"><i class="fa fa-edit"></i>编辑</span></a>
                                         {% endif %}
 
-                                        {% if 'password.reset' in identity.route %}
+                                        {% if 'password.reset' in rbac.route %}
                                             <a href="javascript:void(0);" class="reset" data-url="{{ path_for('password.reset', {'id': v.id}) }}"><span class="badge bg-light-orange"><i class="fa fa-undo"></i>重置密码</span></a>
                                         {% endif %}
 
-                                        {% if 'identity.delete' in identity.route %}
-                                            <a href="javascript:void(0);" class="delete" data-url="{{ path_for('identity.delete', {'id': v.id}) }}"><span class="badge bg-light-red"><i class="fa fa-trash-o"></i>删除</span></a>
+                                        {% if 'user.delete' in rbac.route %}
+                                            <a href="javascript:void(0);" class="delete" data-url="{{ path_for('user.delete', {'id': v.id}) }}"><span class="badge bg-light-red"><i class="fa fa-trash-o"></i>删除</span></a>
                                         {% endif %}
                                     </td>
                                 </tr>

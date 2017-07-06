@@ -121,11 +121,8 @@ class Controller
     {
         $this->commonData = [
             'version'  => env('APP_VERSION', '1.0.0'),
-            'identity' => [
-                'profile' => json_decode(SessionHelper::get('identity'), true),
-                'nav'     => json_decode(SessionHelper::get('nav'), true),
-                'route'   => json_decode(SessionHelper::get('route'), true),
-            ],
+            'identity' => json_decode(SessionHelper::get('identity'), true),
+            'rbac'     => json_decode(SessionHelper::get('rbac'), true),
         ];
 
         return;
