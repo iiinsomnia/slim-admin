@@ -36,10 +36,10 @@ class RoleDao extends MySQL
     public function getById($id)
     {
         $data = $this->findOne([
-                'select' => 'id, name',
-                'where'  => 'id = ?',
-                'binds'  => [$id],
-            ]);
+            'select' => 'id, name',
+            'where'  => 'id = ?',
+            'binds'  => [$id],
+        ]);
 
         return $data;
     }
@@ -61,9 +61,9 @@ class RoleDao extends MySQL
     public function updateById($id, $data)
     {
         $rows = $this->update([
-                'where' => 'id = ?',
-                'binds' => [$id],
-            ], $data);
+            'where' => 'id = ?',
+            'binds' => [$id],
+        ], $data);
 
         return $rows;
     }
@@ -71,9 +71,9 @@ class RoleDao extends MySQL
     public function deleteById($id)
     {
         $rows = $this->delete([
-                'where' => 'id = ?',
-                'binds' => [$id],
-            ]);
+            'where' => 'id = ?',
+            'binds' => [$id],
+        ]);
 
         return $rows;
     }

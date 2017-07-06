@@ -21,7 +21,7 @@ class AssignController extends Controller
                 return $this->json($response, false, '角色不存在');
             }
 
-            $routes = $this->container->Auth->getAllRoutes();
+            $routes = $this->container->Assign->getAllRoutes();
             $assigns = $this->container->Assign->getRoleAssigns($args['roleId']);
 
             return $this->render($response, 'assign', [

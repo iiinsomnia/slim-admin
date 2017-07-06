@@ -76,18 +76,5 @@ class Auth extends Service
     {
         $this->signOut();
     }
-
-    // 获取所有定义的路由
-    public function getAllRoutes()
-    {
-        $routes = $this->container->router->getRoutes();
-        $data = [];
-
-        foreach ($routes as $v) {
-            $data[] = $v->getName();
-        }
-
-        return $data;
-    }
 }
 ?>

@@ -38,10 +38,10 @@ class UserDao extends MySQL
     public function getById($id)
     {
         $data = $this->findOne([
-                'select' => 'id, username, phone, email, role',
-                'where'  => 'id = ?',
-                'binds'  => [$id],
-            ]);
+            'select' => 'id, username, phone, email, role',
+            'where'  => 'id = ?',
+            'binds'  => [$id],
+        ]);
 
         return $data;
     }
@@ -49,10 +49,10 @@ class UserDao extends MySQL
     public function getByAccount($account)
     {
         $data = $this->findOne([
-                'select' => 'id, username, phone, email, password, salt, role',
-                'where'  => 'username = ? OR phone = ? OR email = ?',
-                'binds'  => [$account, $account, $account],
-            ]);
+            'select' => 'id, username, phone, email, password, salt, role',
+            'where'  => 'username = ? OR phone = ? OR email = ?',
+            'binds'  => [$account, $account, $account],
+        ]);
 
         return $data;
     }
@@ -67,9 +67,9 @@ class UserDao extends MySQL
     public function updateById($id, $data)
     {
         $rows = $this->update([
-                'where' => 'id = ?',
-                'binds' => [$id],
-            ], $data);
+            'where' => 'id = ?',
+            'binds' => [$id],
+        ], $data);
 
         return $rows;
     }
@@ -77,9 +77,9 @@ class UserDao extends MySQL
     public function deleteById($id)
     {
         $rows = $this->delete([
-                'where' => 'id = ?',
-                'binds' => [$id],
-            ]);
+            'where' => 'id = ?',
+            'binds' => [$id],
+        ]);
 
         return $rows;
     }

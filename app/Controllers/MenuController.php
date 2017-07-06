@@ -19,7 +19,7 @@ class MenuController extends Controller
         $list = $this->container->Menu->pagination($query);
 
         if (!$request->isXhr()) {
-            $routes = $this->container->Auth->getAllRoutes();
+            $routes = $this->container->Assign->getAllRoutes();
             $pmenus = $this->container->Menu->getPMenus();
 
             return $this->render($response, 'index', [
@@ -44,7 +44,7 @@ class MenuController extends Controller
     {
         if ($request->isGet()) {
             $colors = $this->container->params['menu_color'];
-            $routes = $this->container->Auth->getAllRoutes();
+            $routes = $this->container->Assign->getAllRoutes();
 
             return $this->render($response, 'add', [
                 'colors' => $colors,
@@ -78,7 +78,7 @@ class MenuController extends Controller
                 return $this->json($response, false, '所属菜单不存在');
             }
 
-            $routes = $this->container->Auth->getAllRoutes();
+            $routes = $this->container->Assign->getAllRoutes();
 
             return $this->render($response, 'submenu', [
                 'pid'    => $args['pid'],
@@ -112,7 +112,7 @@ class MenuController extends Controller
             $hasSubmenus = $this->container->Menu->hasSubMenus($args['id']);
 
             $colors = $this->container->params['menu_color'];
-            $routes = !$hasSubmenus ? $this->container->Auth->getAllRoutes() : [];
+            $routes = !$hasSubmenus ? $this->container->Assign->getAllRoutes() : [];
 
             $data = $this->container->Menu->getMenuDetail($args['id']);
 
