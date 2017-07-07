@@ -33,6 +33,7 @@ class Role extends Service
                         $keywords = sprintf('%%%s%%', $v);
                         $where[] = 'name LIKE ?';
                         $binds[] = $keywords;
+
                         break;
                 }
             }

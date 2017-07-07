@@ -33,14 +33,17 @@ class Menu extends Service
                         $keywords = sprintf('%%%s%%', $v);
                         $where[] = 'name LIKE ?';
                         $binds[] = $keywords;
+
                         break;
                     case 'route':
                         $where[] = 'route = ?';
                         $binds[] = $v;
+
                         break;
                     case 'pid':
                         $where[] = 'pid = ?';
                         $binds[] = $v;
+
                         break;
                 }
             }

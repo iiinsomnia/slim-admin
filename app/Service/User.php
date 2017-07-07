@@ -65,10 +65,12 @@ class User extends Service
                     case 'username':
                         $where[] = 'a.username = ?';
                         $binds[] = $v;
+
                         break;
                     case 'role':
                         $where[] = 'a.role = ?';
                         $binds[] = $v;
+
                         break;
                 }
             }
