@@ -11,7 +11,7 @@
 * 支持邮件推送系统错误日志
 * 内含登录和基于路由的RBAC模块
 
-### 使用：
+### 使用
 
 ```sh
 # download and get the framework and dependency libraries
