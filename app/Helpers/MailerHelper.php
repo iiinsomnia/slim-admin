@@ -30,7 +30,7 @@ class MailerHelper
 
         $trace = str_replace('#', '<br/>#', $e->getTraceAsString());
 
-        $content = sprintf('<table><tbody><tr><td><b>Message</b></td><td>%s</td></tr><tr><td><b>File</b></td><td>%s</td></tr><tr><td><b>Line</b></td><td>%s</td></tr><tr><td><b>Trace</b></td><td>%s</td></tr></tbody></table>',
+        $content = sprintf("<table><tbody><tr><td><b>Message</b></td><td>%s</td></tr><tr><td><b>File</b></td><td>%s</td></tr><tr><td><b>Line</b></td><td>%s</td></tr><tr><td><b>Trace</b></td><td>%s</td></tr></tbody></table>",
             $e->getMessage(),
             $e->getFile(),
             $e->getLine(),
