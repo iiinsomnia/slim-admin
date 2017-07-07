@@ -24,18 +24,13 @@ class Mongo
     /**
      * constructor receives container instance
      * @param ContainerInterface $di container instance
-     * @param string $table 表(集合)名称
-     * @param string $db 数据库配置名称，默认：mongo
+     * @param string $db 数据库名称
+     * @param string $collection 集合名称
      */
-    public function __construct(ContainerInterface $c, $table, $db = 'mongo'){
-        $mongo = $c->get($db);
-        $settings = $c->get('settings')[$db];
-
-        $collection = sprintf("%s%s", $settings['prefix'], $table);
-
-        $this->_collection = $mongo->{$settings['database']}->{$collection};
-        $this->_sequence = $mongo->{$settings['database']}->sequence;
-        $this->_seqId = $table;
+    public function __construct(ContainerInterface $c, $db, $collection){
+        $this->_collection = $c->mongo->$db->$collection;
+        $this->_sequence = $c->mongo->$db->sequence;
+        $this->_seqId = $collection;
 
         $this->container = $c;
     }

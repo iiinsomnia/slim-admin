@@ -8,13 +8,14 @@ namespace App\Helpers;
 */
 class MailerHelper
 {
-    public static function sendMail($subject, $content, $to = ['847713844@qq.com' => 'sheng'])
+    // 发送邮件
+    public static function sendMail($subject, $content, $to = [])
     {
         $mailer = self::createMailer();
 
         // Create a message
         $message = (new \Swift_Message($subject))
-            ->setFrom(['iiinsomnia@163.com' => 'IIInsomnia'])
+            ->setFrom(env('MAIL_USERNAME', 'demo@example.com'), env('MAIL_TITLE', ''))
             ->setTo($to)
             ->setBody($content, 'text/html', 'UTF-8');
 
@@ -22,19 +23,25 @@ class MailerHelper
         $mailer->send($message);
     }
 
-    public static function sendErrorMail($error, $to = ['847713844@qq.com' => 'sheng'])
+    // 发送错误日志邮件
+    public static function sendErrorMail($e)
     {
         $mailer = self::createMailer();
 
-        $content = sprintf("<b>Message：</b>%s<br/><br/><b>File：</b>%s<br/><br/><b>Line：</b>%s",
-                $error->getMessage(),
-                $error->getFile(),
-                $error->getLine()
-            );
+        $trace = str_replace('#', '<br/>#', $e->getTraceAsString());
+
+        $content = sprintf('<table><tbody><tr><td><b>Message</b></td><td>%s</td></tr><tr><td><b>File</b></td><td>%s</td></tr><tr><td><b>Line</b></td><td>%s</td></tr><tr><td><b>Trace</b></td><td>%s</td></tr></tbody></table>',
+            $e->getMessage(),
+            $e->getFile(),
+            $e->getLine(),
+            $trace
+        );
+
+        $to = explode(',', env('ERROR_MAIL_TO', ''));
 
         // Create a message
         $message = (new \Swift_Message('PHP Exception'))
-            ->setFrom(['iiinsomnia@163.com' => 'IIInsomnia'])
+            ->setFrom(env('MAIL_USERNAME', 'demo@example.com'), env('MAIL_TITLE', ''))
             ->setTo($to)
             ->setBody($content, 'text/html', 'UTF-8');
 
@@ -42,12 +49,12 @@ class MailerHelper
         $mailer->send($message);
     }
 
-    protected static function createMailer()
+    public static function createMailer()
     {
         // Create the Transport
-        $transport = (new \Swift_SmtpTransport('smtp.163.com', 25))
-            ->setUsername('iiinsomnia@163.com')
-            ->setPassword('wwwsh0779');
+        $transport = (new \Swift_SmtpTransport(env('MAIL_HOST', 'smtp.exmail.qq.com'), env('MAIL_PORT', 25)))
+            ->setUsername(env('MAIL_USERNAME', 'demo@example.com'))
+            ->setPassword(env('MAIL_PASSWORD', ''));
 
         // Create the Mailer using your created Transport
         $mailer = new \Swift_Mailer($transport);

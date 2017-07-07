@@ -27,10 +27,8 @@ return [
         'mongo' => [
             'host'     => env('MONGO_HOST', '127.0.0.1'),
             'port'     => env('MONGO_PORT', '27017'),
-            'database' => env('MONGO_DATABASE', 'test'),
             'username' => env('MONGO_USERNAME', null),
             'password' => env('MONGO_PASSWORD', null),
-            'prefix'   => env('MONGO_PREFIX', ''),
         ],
 
         // Predis settings
