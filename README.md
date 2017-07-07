@@ -33,8 +33,8 @@ php cli greet -h
 
 * 服务器虚拟目录指向 `public` 目录
 * 确保 `logs` 目录可写
-* .env.example -> .env
 * 导入 `demo.sql`
+* .env.example -> .env
 * 默认3个用户：admin/admin、slim/123、demo/123
 * 新增用户默认密码为：123
 
