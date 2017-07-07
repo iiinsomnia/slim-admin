@@ -48,7 +48,7 @@ class Role extends Service
             return [];
         }
 
-        $result = $this->container->RoleDao->getByPage($where, $binds, $offset, $size);
+        $result = $this->container->RoleDao->getByPagination($where, $binds, $offset, $size);
 
         $result['pages'] = ceil($result['count'] / $size);
 

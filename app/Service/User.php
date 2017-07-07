@@ -84,7 +84,7 @@ class User extends Service
             return [];
         }
 
-        $result = $this->container->UserDao->getByPage($where, $binds, $offset, $size);
+        $result = $this->container->UserDao->getByPagination($where, $binds, $offset, $size);
 
         $result['pages'] = ceil($result['count'] / $size);
 

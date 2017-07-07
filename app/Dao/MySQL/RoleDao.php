@@ -12,7 +12,7 @@ class RoleDao extends MySQL
         parent::__construct($c, 'role');
     }
 
-    public function getByPage($where, $binds, $offset, $limit)
+    public function getByPagination($where, $binds, $offset, $limit)
     {
         $count = $this->count([
             'where' => $where,

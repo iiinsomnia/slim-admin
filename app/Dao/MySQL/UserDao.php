@@ -12,7 +12,7 @@ class UserDao extends MySQL
         parent::__construct($c, 'user');
     }
 
-    public function getByPage($where, $binds, $offset, $limit)
+    public function getByPagination($where, $binds, $offset, $limit)
     {
         $count = $this->count([
             'join'  => ['LEFT JOIN slim_role AS b ON a.role = b.id'],

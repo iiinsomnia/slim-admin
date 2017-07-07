@@ -12,7 +12,7 @@ class MenuDao extends MySQL
         parent::__construct($c, 'menu');
     }
 
-    public function getByPage($where, $binds, $offset, $limit)
+    public function getByPagination($where, $binds, $offset, $limit)
     {
         $count = $this->count([
             'where' => $where,

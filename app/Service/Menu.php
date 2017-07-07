@@ -56,7 +56,7 @@ class Menu extends Service
             return [];
         }
 
-        $result = $this->container->MenuDao->getByPage($where, $binds, $offset, $size);
+        $result = $this->container->MenuDao->getByPagination($where, $binds, $offset, $size);
 
         $result['pages'] = ceil($result['count'] / $size);
 
