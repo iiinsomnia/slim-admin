@@ -97,7 +97,7 @@ class Controller
     }
 
     // JSON
-    protected function json($response, $success = true, $msg = null, $resp = [], $redirect = []) {
+    protected function json($response, $success, $msg, $resp = null, $redirect = []) {
         $result = [
             'success' => $success,
             'msg'     => $msg,

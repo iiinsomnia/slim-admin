@@ -54,7 +54,7 @@ class HomeController extends Controller
             return $this->json($response, false, $result['msg']);
         }
 
-        return $this->json($response, true, $result['msg'], [], ['home']);
+        return $this->json($response, true, $result['msg'], null, ['home']);
     }
 
     public function logout($request, $response, $args)

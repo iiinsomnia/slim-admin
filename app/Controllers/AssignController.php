@@ -40,7 +40,7 @@ class AssignController extends Controller
             return $this->json($response, false, '分配失败');
         }
 
-        return $this->json($response, true, '分配成功', [], ['role.index']);
+        return $this->json($response, true, '分配成功', null, ['role.index']);
     }
 }
 ?>

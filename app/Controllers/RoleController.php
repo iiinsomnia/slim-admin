@@ -53,7 +53,7 @@ class RoleController extends Controller
             return $this->json($response, false, '添加失败');
         }
 
-        return $this->json($response, true, '添加成功', [], ['role.index']);
+        return $this->json($response, true, '添加成功', null, ['role.index']);
     }
 
     public function edit($request, $response, $args)
@@ -78,7 +78,7 @@ class RoleController extends Controller
             return $this->json($response, false, '编辑失败');
         }
 
-        return $this->json($response, true, '编辑成功', [], ['role.index']);
+        return $this->json($response, true, '编辑成功', null, ['role.index']);
     }
 
     public function delete($request, $response, $args)
@@ -89,7 +89,7 @@ class RoleController extends Controller
             return $this->json($response, false, '删除失败');
         }
 
-        return $this->json($response, true, '删除成功', [], ['role.index']);
+        return $this->json($response, true, '删除成功', null, ['role.index']);
     }
 }
 ?>
