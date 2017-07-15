@@ -14,7 +14,7 @@ class Controller
         $this->container = $c;
         $this->viewDir = $dir;
 
-        $this->__initCommonData();
+        $this->_initCommonData();
     }
 
     // 当前用户是否为游客身份
@@ -117,7 +117,7 @@ class Controller
         return $response->withJson($result, 200);
     }
 
-    private function __initCommonData()
+    private function _initCommonData()
     {
         $this->commonData = [
             'version'  => env('APP_VERSION', '1.0.0'),

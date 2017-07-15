@@ -29,9 +29,9 @@ class Service
         $loginTime = date('Y-m-d H:i:s');
 
         $result = $this->container->UserDao->updateById($profile['id'], [
-                'last_login_ip'   => $loginIP,
-                'last_login_time' => $loginTime,
-            ]);
+            'last_login_ip'   => $loginIP,
+            'last_login_time' => $loginTime,
+        ]);
 
         if ($result === false) {
             return false;
