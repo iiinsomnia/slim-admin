@@ -45,30 +45,12 @@ class Controller
         return $this->container->view->render($response, $path, $data);
     }
 
-    // 试图403渲染
-    protected function render403($response, $msg)
+    // Error试图渲染
+    protected function renderError($response, $code, $msg)
     {
         return $this->container->view->render($response, 'error/error.twig', [
-            'title' => 403,
-            'msg'   => $msg,
-        ]);
-    }
-
-    // 试图404渲染
-    protected function render404($response, $msg)
-    {
-        return $this->container->view->render($response, 'error/error.twig', [
-            'title' => 404,
-            'msg'   => $msg,
-        ]);
-    }
-
-    // 试图500渲染
-    protected function render500($response, $msg)
-    {
-        return $this->container->view->render($response, 'error/error.twig', [
-            'title' => 500,
-            'msg'   => $msg,
+            'code' => $code,
+            'msg'  => $msg,
         ]);
     }
 

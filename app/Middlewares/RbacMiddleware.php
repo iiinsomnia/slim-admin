@@ -38,8 +38,8 @@ class RbacMiddleware
             }
 
             return $this->container->view->render($response, 'error/error.twig', [
-                'title' => 403,
-                'msg'   => '权限不足',
+                'code' => 403,
+                'msg'  => '权限不足',
             ]);
         }
 

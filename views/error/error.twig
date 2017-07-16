@@ -1,6 +1,6 @@
 {% extends 'layouts/normal.twig' %}
 
-{% block title %}{{ title }}{% endblock %}
+{% block title %}{{ code }}{% endblock %}
 
 {% block body_class %}error-page{% endblock %}
 
@@ -8,7 +8,7 @@
     <div class="content">
         <div class="row">
             <div class="col-sm-12">
-                <h1 class="title">{{ title }}</h1>
+                <h1 class="title">{{ code }}</h1>
             </div>
             <div class="col-sm-12">
                 <p class="message">{{ msg }}</p>
