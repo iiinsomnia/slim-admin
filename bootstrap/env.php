@@ -18,8 +18,8 @@ if (!function_exists('env')) {
     {
         $value = getenv($key);
 
-        if ($value === false || trim($value) == '') {
-            return $default;
+        if ($value === false) {
+            return value($default);
         }
 
         switch (strtolower($value)) {
@@ -35,6 +35,10 @@ if (!function_exists('env')) {
             case 'null':
             case '(null)':
                 return;
+        }
+
+        if (strlen($value) > 1 && \App\Helpers\StrHelper::startsWith($value, '"') && \App\Helpers\StrHelper::endsWith($value, '"')) {
+            return substr($value, 1, -1);
         }
 
         return $value;
